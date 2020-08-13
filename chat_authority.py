@@ -11,9 +11,10 @@ def get_list():
 		{
 			"id":<string>,
 			"type":<string>,
+			"admin":<bool>,
 			"warframe":<bool>,
 			"honkai3":<bool>
-		}
+		},
 	]
 
 	return chat_list
@@ -29,6 +30,7 @@ def get_authority(group_id,user_id):
 		for i in range(list_length):
 			if (chat_list[i].get("id")==group_id and chat_list[i].get("type")=="group"):
 				authority={
+					"admin":chat_list[i].get("admin"),
 					"warframe":chat_list[i].get("warframe"),
 					"honkai3":chat_list[i].get("honkai3")
 				}
@@ -38,6 +40,7 @@ def get_authority(group_id,user_id):
 		for i in range(list_length):
 			if (chat_list[i].get("id")==user_id and chat_list[i].get("type")=="private"):
 				authority={
+					"admin":chat_list[i].get("admin"),
 					"warframe":chat_list[i].get("warframe"),
 					"honkai3":chat_list[i].get("honkai3")
 				}
