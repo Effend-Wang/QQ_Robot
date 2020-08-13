@@ -1,0 +1,1028 @@
+openapi: 3.0.1
+info:
+  title: Warframe.market API
+  contact:
+    name: KycKyc
+    url: https://discord.gg/jyPe5pQ
+  version: 1.0.0
+  x-logo:
+    url: https://warframe.market/static/build/assets/frontend/logo.7c3779fb00edc1ee16531ea55bbd5367.png
+    altText: Warframe.Market logo
+externalDocs:
+  description: Google Doc Source
+  url: https://docs.google.com/document/d/1121cjBNN4BeZdMBGil6Qbuqse-sWpEXPpitQH5fb_Fo/edit#
+servers:
+  - url: https://api.warframe.market/{base_url}
+    description: Warframe.Market prod api
+    variables:
+      base_url:
+        default: v1
+paths:
+  # 用户登录
+  /auth/signin:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+  # 用户注销
+  /auth/signout:
+    get:
+      tags:
+        - Authentication
+      summary: Logout
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+  # 用户注册
+  /auth/registration:
+    post:
+      tags:
+        - Authentication
+      summary: Registration
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+  # 获得所有物品的信息
+  /items:
+    get:
+      tags:
+        - Items
+      summary: Get all known items
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: All items in a short form to make them easier to look up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/items_payload'
+  # 获得单个物品的信息
+  /items/{url_name}:
+    get:
+      tags:
+        - Items
+      summary: Gets a single item payload by url name
+      parameters:
+        - $ref: '#/components/parameters/url_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: All items in a short form to make them easier to look up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/long_item'
+  # 获得单个物品的订单信息
+  /items/{url_name}/orders:
+    get:
+      tags:
+        - Orders
+      summary: Gets orders for a single item by url name
+      parameters:
+        - $ref: '#/components/parameters/url_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Orders for the item
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      orders:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/order'
+  # 获得单个物品的静态信息
+  /items/{url_name}/statistics:
+    get:
+      tags:
+        - Statistics
+      summary: Item statistics
+      parameters:
+        - $ref: '#/components/parameters/url_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Item statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      statistics_closed:
+                        type: object
+                        items:
+                          $ref: '#/components/schemas/statistics'
+                      statistics_live:
+                        type: object
+                        items:
+                          $ref: '#/components/schemas/statistics'
+  # 获得最近4小时内的订单信息
+  /most_recent:
+    get:
+      tags:
+        - Orders
+      summary: Gets orders for the last 4 hours
+      responses:
+        200:
+          description: Orders for the last 4 hours
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      orders:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/order'
+        default:
+          $ref: '#/components/responses/error'
+  # 获取当前的用户页面
+  /profile:
+    get:
+      tags:
+        - User Profile
+      summary: Get a the current user's profile
+      security:
+        - OAuth2: [read]
+      responses:
+        200:
+          description: Orders for the item
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      profile:
+                        $ref: '#/components/schemas/user'
+        default:
+          $ref: '#/components/responses/error'
+  # 管理当前用户页面格式
+  /profile/customization:
+    post:
+      tags:
+        - User Profile
+      summary: Manage current user profile customization, like uploading avatar/background
+      security:
+        - OAuth2: [write]
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+  # 从当前用户获得单个订单信息
+  /profile/orders/{order_id}:
+    get:
+      tags:
+        - Orders
+      summary: Gets individual order from current profile
+      security:
+        - OAuth2: [read]
+      parameters:
+        - $ref: '#/components/parameters/order_id'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      order:
+                        $ref: '#/components/schemas/order'
+    put:
+      tags:
+        - Orders
+      summary: Update a single order on the current profile
+      security:
+        - OAuth2: [write]
+      parameters:
+        - $ref: '#/components/parameters/order_id'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: OK
+    delete:
+      tags:
+        - Orders
+      summary: Delete a single order on the current profile
+      security:
+        - OAuth2: [write]
+      parameters:
+        - $ref: '#/components/parameters/order_id'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: OK
+  # 给目前的用户添加新订单
+  /profile/orders:
+    post:
+      tags:
+        - Orders
+      summary: Add a new order for the current profile
+      security:
+        - OAuth2: [write]
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: OK
+    get:
+      tags:
+        - Orders
+      summary: Gets all of the current profiles orders
+      security:
+        - OAuth2: [read]
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      orders:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/order'
+  # 获取某用户的页面
+  /profile/{user_name}:
+    get:
+      tags:
+        - User Profile
+      summary: Get a user's profile
+      security:
+        - OAuth2: [read]
+      parameters:
+        - $ref: '#/components/parameters/user_name'
+      responses:
+        200:
+          description: Orders for the item
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      profile:
+                        $ref: '#/components/schemas/user'
+        default:
+          $ref: '#/components/responses/error'
+  # 获取某用户的静态信息，即最近订单列表
+  /profile/{user_name}/statistics:
+    get:
+      tags:
+        - Orders
+      summary: User's sale statistics, a list of their closed orders
+      parameters:
+        - $ref: '#/components/parameters/user_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Item statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      closed_orders:
+                        type: object
+                        items:
+                          $ref: '#/components/schemas/order'
+  # 获取某用户的所有订单
+  /profile/{user_name}/orders:
+    get:
+      tags:
+        - Orders
+      summary: Get all of a user's orders
+      parameters:
+        - $ref: '#/components/parameters/user_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      buy_orders:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/order'
+                      sell_orders:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/order'
+  /profile/{user_name}/achievements:
+    get:
+      tags:
+        - User Profile
+      summary: Get all of a user's achievements
+      parameters:
+        - $ref: '#/components/parameters/user_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Achievements
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      achievements:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/achievement'
+  /profile/{user_name}/reviews:
+    get:
+      tags:
+        - User Profile
+      summary: Get all of a user's reviews
+      parameters:
+        - $ref: '#/components/parameters/user_name'
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: Achievements
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      own_review:
+                        type: boolean
+                        default: false
+                      reviews:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/review'
+                      total_review_count:
+                        type: integer
+                      user:
+                        $ref: '#/components/schemas/user'
+  # TODO:
+  #    /settings [GET]  -  Verification, Platform, Prefered lang and Ingame name
+  #    /settings [PATCH] -  Update  Platform or Prefered lang.
+  #    
+  #    /settings/subscription [GET] -  Get information about subscription
+  #    /settings/notifications [GET, PUT] - Get | patch info about notification settings.
+  #    /settings/ads [GET, PUT] - Get | patch info about ads settings.
+  #    /settings/accounts [GET, PUT] - Get | patch info about linked accounts. (Steam, Patreon, Xbox, PS4)
+
+  /statistics:
+    get:
+      tags:
+        - Statistics
+      summary: Get global market statistics
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: All statistics. Seems to be an empty object right now.
+          content:
+            application/json:
+              schema:
+                type: object
+  /auctions:
+    get:
+      tags:
+        - Rivens
+      summary: Get all current auction items
+      responses:
+        default:
+          $ref: '#/components/responses/error'
+        200:
+          description: All auctions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      auctions:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/auction'
+components:
+  schemas:
+    achievement:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the achievement
+        icon:
+          $ref: '#/components/schemas/icon'
+        description:
+          type: string
+          description: Front-end fluff description of achievement
+          default: Warframe.market would not have been possible without this amazing patron.
+        exposed:
+          type: boolean
+          default: true
+          description: Whether or not to show the achievement on the user achievement page
+        type:
+          $ref: '#/components/schemas/achievement-type'
+    achievement-type:
+      type: string
+      enum:
+        - patreon
+    auction:
+      type: object
+      properties:
+        buyout_price:
+          type: integer
+          default: 0
+        minimal_reputation:
+          type: integer
+          default: 0
+          description: Minimum required reputation required to participat
+        note:
+          type: string
+          description: Poster-provided note with raw HTML tags
+        item:
+          $ref: '#/components/schemas/auction_item'
+        private:
+          type: boolean
+          default: false
+          description: Whether or not the auction is private
+        starting_price:
+          type: integer
+          default: 0
+          description: Starting auction price
+        owner:
+          $ref: '#/components/schemas/user'
+        platform:
+          $ref: '#/components/schemas/platform'
+        closed:
+          type: boolean
+          description: Whether or not the auction has been closed
+        top_bid:
+          type: integer
+          # needs check
+        winner:
+          $ref: '#/components/schemas/user'
+        is_marked_for:
+          type: object
+          default: null
+          description: Couldn't find any meaning for this. No values were non-null.
+        marked_operation_at:
+          type: object
+          default: null
+          description: Couldn't find any meaning for this. No values were non-null.
+        created:
+          type: string
+          format: date
+          description: When the auction was created
+        updated:
+          type: string
+          format: date
+          description: When the auction was last updated
+        note_raw:
+          type: string
+          default: ""
+          description: Raw string of note text without wrapping HTML tags, with escaped entities
+        is_direct_sale:
+          type: boolean
+          default: false
+          description: Whether or not this is a direct sell or a bidding auction
+        id:
+          type: string
+          
+    auction_item:
+      type: object
+      properties:
+        attributes:
+          type: array
+          maxLength: 4
+          minLength: 2
+          items:
+            type: object
+            properties:
+              value:
+                type: number
+                format: float
+                default: 0
+                description: Numerical value of the riven stat
+              postive:
+                type: boolean
+                description: Whether or not the stat is considered a boon or a curse.
+                default: true
+              url_name:
+                $ref: '#/components/schemas/url_name'
+        polarity:
+          $ref: '#/components/schemas/polarity'
+        mod_rank:
+          type: integer
+          default: 0
+          minimum: 0
+          maximum: 8
+          description: Rank of the mod from 0-8
+        name:
+          type: string
+          description: Unique name for the Riven
+        re_rolls:
+          type: integer
+          description: Number of times the mod has been rolled
+          default: 0
+        mastery_level:
+          type: integer
+          default: 8
+          minimum: 8
+          maximum: 16
+        weapon_url_name:
+          $ref: '#/components/schemas/url_name'
+        type:
+          $ref: '#/components/schemas/item_type'
+    drop:
+      title: drop
+      type: object
+      properties:
+        name:
+          title: name
+          type: string
+          description: Where the item drops
+        link:
+          type: string
+          description: Link to where the item drops(?)
+      description: Describes where an item can drop
+    icon:
+      title: icon
+      type: string
+      description: Image route. This can be appended on `https://api.warframe.market/v1/`
+        to resolve the image
+    icon_format:
+      title: icon_format
+      type: string
+      enum:
+      - land
+    item_type:
+      type: string
+      enum:
+        - riven
+    items_payload:
+      title: payload
+      type: object
+      properties:
+        payload:
+          type: object
+          properties:
+            items:
+              $ref: '#/components/schemas/short_item_arr'
+      description: Payload for all items
+    long_item:
+      title: long_item
+      type: object
+      properties:
+        id:
+          title: id
+          type: string
+        icon_format:
+          $ref: '#/components/schemas/icon_format'
+        mastery_level:
+          title: mastery_level
+          type: integer
+          description: The Mastery Rank at which the item becomes usable/tradable/buildable
+          default: 0
+        trading_tax:
+          title: trading_tax
+          type: integer
+          description: Tax applied for trading the item. The person receiving the
+            item pays the tax.
+          default: 0
+        tags:
+          title: tags
+          type: array
+          items:
+            $ref: '#/components/schemas/tag'
+        icon:
+          $ref: '#/components/schemas/icon'
+        set_root:
+          title: set_root
+          type: boolean
+          description: Whether or not this is the root item of the set
+        sub_icon:
+          $ref: '#/components/schemas/icon'
+        url_name:
+          $ref: '#/components/schemas/url_name'
+        fr:
+          $ref: '#/components/schemas/translated_item'
+        ko:
+          $ref: '#/components/schemas/translated_item'
+        zh:
+          $ref: '#/components/schemas/translated_item'
+        sv:
+          $ref: '#/components/schemas/translated_item'
+        de:
+          $ref: '#/components/schemas/translated_item'
+        ru:
+          $ref: '#/components/schemas/translated_item'
+        en:
+          $ref: '#/components/schemas/translated_item'
+      description: Long item
+    order:
+      title: order
+      type: object
+      required:
+        - visible
+        - quantity
+        - platform
+        - region
+        - platinum
+        - order_type
+        - id
+      properties:
+        creation_date:
+          title: creation_date
+          type: string
+        closed_date:
+          title: closed_date
+          type: string
+          description: Date the order was closed. Exclusive to `/profile/{user_name}/statistics`
+        visible:
+          title: visible
+          type: boolean
+          description: Whether or not the order is visible
+        quantity:
+          type: object
+        user:
+          $ref: '#/components/schemas/user'
+        platform:
+          $ref: '#/components/schemas/platform'
+        region:
+          $ref: '#/components/schemas/region'
+        platinum:
+          title: platinum
+          type: number
+          description: Amount of platinum attributed to the order
+          format: float
+        last_update:
+          title: last_update
+          type: string
+          description: Timestamp of the last time that the order was updated. Excluded on profile statistics.
+          format: date
+        order_type:
+          $ref: '#/components/schemas/order_type'
+        id:
+          title: id
+          type: string
+          description: Order id
+      maxProperties: 10
+      description: |-
+        Describes an Order
+        `closed_date` is exclusive to `/profile/{user_name}/statistics`, which also excludes `creation_date`
+    order_type:
+      title: order_type
+      type: string
+      description: What kind of order it is
+      enum:
+      - buy
+      - sell
+    platform:
+      title: platform
+      type: string
+      default: pc
+      enum:
+      - pc
+      - xb1
+      - ps4
+      - switch
+    polarity:
+      type: string
+      description: Enumerated identifier for a polarity
+      enum:
+        - madurai
+        - vazarin
+        - naramin
+        - unairu
+        - zenurik
+        - penjaga
+        - umbra
+    region:
+      title: region
+      type: string
+      enum:
+      - en
+      - zh
+      - ru
+      - ko
+      - fr
+      - sv
+      - de
+    review:
+      type: object
+      properties:
+        text:
+          type: string
+          description: text id of the database review? uncertain, as example in google doc was gobbledegook
+        hidden:
+          type: boolean
+          default: false
+          description: Whether or not the review is hidden from the user's profile
+        date:
+          description: Date review was posted
+          type: string
+          format: date
+        user_from:
+          $ref: '#/components/schemas/user'
+        review_type:
+          type: integer
+          description: Probably a type id, but no idea what correlation it has.
+        id:
+          type: string
+    short_item_arr:
+      title: items
+      type: array
+      description: Generic type containing data for items
+      items:
+        $ref: '#/components/schemas/short_item'
+    short_item:
+      title: item
+      type: object
+      properties:
+        id:
+          title: id
+          type: string
+          
+        url_name:
+          title: url_name
+          type: string
+          description: String that can be used to identify the item from the API
+          
+        item_name:
+          title: item_name
+          type: string
+          description: Formatted string name of the item
+          
+        thumb:
+          $ref: '#/components/schemas/icon'
+      description: An item with only a few fields
+    statistic:
+      type: object
+      properties:
+        donch_top:
+          type: number
+        closed_price:
+          type: number
+        open_price:
+          type: number
+        datetime:
+          type: string
+          format: date
+        min_price:
+          type: number
+        donch_bot:
+          type: number
+        avg_price:
+          type: number
+        max_price:
+          type: number
+        volume:
+          type: number
+        id:
+          type: string
+        median:
+          type: number
+    statistics:
+      description: statistics data wrapper
+      type: object
+      properties:
+        '90days':
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic'
+    status:
+      title: status
+      type: string
+      description: Describes a user's visiblity status
+      enum:
+      - offline
+      - ingame
+    tag:
+      title: tag
+      type: string
+      description: A common identifier for grouping items
+      enum:
+      - blueprint
+      - prime
+      - parts
+      - blade
+      - hilt
+      - set
+    translated_item:
+      title: translated_item
+      type: object
+      properties:
+        item_name:
+          title: item_name
+          type: string
+          description: Name of the item
+        description:
+          title: description
+          type: string
+          description: HTML formatted description
+        wiki_link:
+          title: wiki_link
+          type: string
+          description: Link to the item on the [Warframe Wikia](https://warframe.fandom.com)
+        drop:
+          type: array
+          items:
+            $ref: '#/components/schemas/drop'
+      description: Objects providing translations for item fields
+    url_name:
+      title: url_name
+      type: string
+      description: String that can be used to identify the item from the API
+    user:
+      title: user
+      type: object
+      description: Data as to the user who submitted the buy or sell order
+      required:
+        - ingame_name
+        - platform
+        - reputation
+        - status
+        - region
+        - avatar
+        - id
+      properties:
+        ingame_name:
+          title: ingame_name
+          type: string
+          description: User's IGN
+        last_seen:
+          title: last_seen
+          type: string
+          description: last time user was seen
+          format: date
+        reputation_bonus:
+          title: reputation_bonus
+          type: integer
+          description: Bonus reputation the user has earned. Excluded from object if retrieved from a review.
+          default: 0
+        reputation:
+          title: reputation
+          type: integer
+          description: Total reputation the user has earned
+          default: 0
+        region:
+          $ref: '#/components/schemas/region'
+        avatar:
+          $ref: '#/components/schemas/icon'
+        status:
+          $ref: '#/components/schemas/status'
+        id:
+          type: string
+        background:
+          $ref: '#/components/schemas/icon'
+        achievements:
+          type: array
+          items:
+            $ref: '#/components/schemas/achievement'
+        about:
+          type: string
+          description: HTML-entity-escaped site-ready user-provided description of themselves
+          default: ""
+        linked_accounts:
+          type: object
+          properties:
+            steam_profile:
+              type: boolean
+              description: whether or not the user has a linked Steam profile
+            xbox_profile:
+              type: boolean
+              description: whether or not the user has a linked XBox profile
+            patreon_profile:
+              type: boolean
+              description: Whether or not the user has a linked Patreon profile
+        own_profile:
+          type: boolean
+          description: Whether or not this is the authenticated user's own profile
+        role:
+          $ref: '#/components/schemas/role'
+        has_mail:
+          type: boolean
+          description: Whether or not he user has mail
+        ban_reason:
+          type: string
+          description: Description of why the user was banned
+        anonymous:
+          type: boolean
+          description: Whether or not this profile is anonymous
+        check_code:
+          type: string
+        unread_messages:
+          type: integer
+          description: How many unread messages user has
+        banned:
+          type: boolean
+          description: Whether or not the user is banned
+    role:
+      type: string
+      enum:
+        - anonymous
+  responses:
+    error:
+      description: Generic error response
+      content:
+        application/json:
+          schema:
+            title: error
+            type: object
+            properties:
+              error:
+                title: error
+                type: string
+                description: An error message
+  parameters:
+    order_id:
+      name: order_id
+      in: path
+      description: Order Id to be looked up
+      required: true
+      schema:
+        type: string
+    url_name:
+      name: url_name
+      in: path
+      description: The desired url_name to get data for
+      required: true
+      schema:
+        type: string
+    user_name:
+      name: user_name
+      in: path
+      description: User's name
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    OAuth2: 
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /auth/signin
+          tokenUrl: /auth???
+          scopes:
+            read: Grants read access
+            write: Grants write access
