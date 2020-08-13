@@ -3,7 +3,7 @@ import requests
 
 # 需要发送的数据包
 data = {
-	'group_id':608634144,					# 发送的对象群ID
+	'group_id':123456789,					# 发送的对象群ID
 	'message':'这里是群主开发的聊天机器人，进行发送消息测试中……',		# 发送的消息内容
 	'auto_escape':False						# 自动回传
 }
