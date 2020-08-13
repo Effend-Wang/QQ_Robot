@@ -3,7 +3,7 @@ import requests
 
 # 需要发送的数据包
 data = {
-	'user_id':465152177,				# 发送的私密对象ID
+	'user_id':123456789,				# 发送的私密对象ID
 	'message':'我是一个可爱的小机器人喵',	# 发送的消息内容
 	'auto_escape':False					# 自动回传
 }
