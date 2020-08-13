@@ -28,8 +28,8 @@ def get_message(data):
 
 	# 初始化数据默认值
 	message_type=""
-	cq_status=False
-	cq_id=[]
+	at_status=False
+	at_id=[]
 	group_id=""
 	user_id=""
 	nickname=""
@@ -38,19 +38,21 @@ def get_message(data):
 	message_status=False
 	
 	# 获得全局聊天类型（私密/群消息）
-	message_type=data.get("message_type")
+	message_type=data.get("Type")
 
 	# 处理私密消息
-	if (message_type=="private"):
+	if (message_type=="PrivateMsg"):
+		message_type="private"
 		(user_id,nickname,message,image_url,message_status)=private_message(data)
 
 	# 处理群消息
-	elif (message_type=="group"):
-		(cq_status,cq_id,group_id,user_id,nickname,message,image_url,message_status)=group_message(data)
+	elif (message_type=="GroupMsg"):
+		message_type="group"
+		(at_status,at_id,group_id,user_id,nickname,message,image_url,message_status)=group_message(data)
 
 	# 输出消息
 	#print("收到一条%s消息：" %message_type)
-	#print("@类型：%s\t@对象：%s" %(cq_status,cq_id))
+	#print("@类型：%s\t@对象：%s" %(at_status,at_id))
 	#print("来自QQ：%s\t昵称：%s" %(user_id,nickname))
 	#print("消息类型：%s" %message_type)
 	#print("消息内容：%s" %message)
@@ -60,8 +62,8 @@ def get_message(data):
 	# 整合数据
 	message={
 		"message_type":message_type,
-		"cq_status":cq_status,
-		"cq_id":cq_id,
+		"at_status":at_status,
+		"at_id":at_id,
 		"group_id":group_id,
 		"user_id":user_id,
 		"nickname":nickname,
@@ -74,43 +76,55 @@ def get_message(data):
 
 # 私密消息处理
 def private_message(data):
-	user_id=data.get("user_id")
-	nickname=data.get("sender").get("nickname")
+	image_url=""
+	user_id=data.get("FromQQ").get("UIN")
+	nickname=data.get("FromQQ").get("NickName")
+	message=data.get("Msg").get("Text")
 
-	message=""
-	image_url=[]
-	message_length=len(data.get("message"))
-	for i in range(message_length):
-		if(data.get("message")[i].get("type")=="text"):
-			message=message+data.get("message")[i].get("data").get("text")
-		elif(data.get("message")[i].get("type")=="image"):
-			image_url.append(data.get("message")[i].get("data").get("url"))
+	# Warning: For CoolQ, no longer useful
+	#message=""
+	#image_url=[]
+	#message_length=len(data.get("message"))
+	#for i in range(message_length):
+		#if(data.get("message")[i].get("type")=="text"):
+			#message=message+data.get("message")[i].get("data").get("text")
+		#elif(data.get("message")[i].get("type")=="image"):
+			#image_url.append(data.get("message")[i].get("data").get("url"))
 
-	message_status=True
+	if message!="":
+		message_status=True
+	else:
+		message_status=False
 	
 	return user_id,nickname,message,image_url,message_status
 
 # 群消息处理
 def group_message(data):
-	cq_status=False
-	cq_id=[]
-	group_id=data.get("group_id")
-	user_id=data.get("sender").get("user_id")
-	nickname=data.get("sender").get("nickname")
+	at_status=False
+	at_id=[]
+	image_url=""
+	group_id=data.get("FromGroup").get("GIN")
+	user_id=data.get("FromQQ").get("UIN")
+	nickname=data.get("FromQQ").get("Card")
+	message=data.get("Msg").get("Text")
 
-	message=""
-	image_url=[]
-	message_length=len(data.get("message"))
-	for i in range(message_length):
-		if(data.get("message")[i].get("type")=="text"):
-			message=message+data.get("message")[i].get("data").get("text")
-		elif(data.get("message")[i].get("type")=="image"):
-			image_url.append(data.get("message")[i].get("data").get("url"))
-		elif(data.get("message")[i].get("type")=="at"):
-			cq_status=True
-			cq_id.append(data.get("message")[i].get("data").get("qq"))
+	# Warning: For CoolQ, no longer useful
+	#message=""
+	#image_url=[]
+	#message_length=len(data.get("message"))
+	#for i in range(message_length):
+		#if(data.get("message")[i].get("type")=="text"):
+			#message=message+data.get("message")[i].get("data").get("text")
+		#elif(data.get("message")[i].get("type")=="image"):
+			#image_url.append(data.get("message")[i].get("data").get("url"))
+		#elif(data.get("message")[i].get("type")=="at"):
+			#cq_status=True
+			#cq_id.append(data.get("message")[i].get("data").get("qq"))
 
-	message_status=True
+	if message!="":
+		message_status=True
+	else:
+		message_status=False
 	
-	return cq_status,cq_id,group_id,user_id,nickname,message,image_url,message_status
+	return at_status,at_id,group_id,user_id,nickname,message,image_url,message_status
 	
