@@ -17,7 +17,7 @@ bot_server=Flask(__name__)
 # 定义服务器模块
 def server():
 	# 初始化
-	self_id=<此处为机器人QQ号>
+	self_id=<机器人QQ号>
 
 	# 接收消息
 	data=request.get_data().decode('utf-8')
@@ -34,4 +34,4 @@ def server():
 	return ""
 
 if __name__=='__main__':
-	bot_server.run(port=5701)
+	bot_server.run(port=<接收事件端口>)
