@@ -11,8 +11,8 @@ print(message)
 print(message)
 
 data = {
-	"fromqq":3501530063,
-	'toqq':465152177,				# 发送的私密对象ID
+	"fromqq":123456789,
+	'toqq':123456789,				# 发送的私密对象ID
 	'text':message,	# 发送的消息内容
 }
 
