@@ -1,0 +1,10 @@
+# .ignore file is used to ignore file from git push.
+
+# Ignore program config database files
+data/config/
+
+# Ignore test files
+test.py
+
+# Ignore python cache files
+__pycache__

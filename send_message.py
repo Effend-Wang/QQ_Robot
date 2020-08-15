@@ -53,8 +53,9 @@ def send(self_id,data):
 			authority=chat_authority.get_authority(group_id,user_id)
 			if (authority==False):
 				return ""
+			print("开始创建消息")
 			message_to_send=message_create(message,authority)
-			#print(message_to_send)
+			print(message_to_send)
 		else:
 			return ""
 	else:

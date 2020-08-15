@@ -1,6 +1,6 @@
 import requests
 from json import loads
-import warframe.en_wm as en_wm
+from warframe.warframe_translation import market_trans
 
 # API链接
 warframe_market_api="https://api.warframe.market/v1"
@@ -9,7 +9,7 @@ all_items="/items"
 
 def get_market(message_from_user):
 	message_from_user=message_from_user.strip().split(" ",1)
-	url_name=en_wm.trans_en(message_from_user[1].upper())
+	url_name=market_trans(message_from_user[1].upper())
 	if (url_name==message_from_user[1].upper()):
 		message_to_send="\n未能查到相关物品，请检查输入的物品格式！"
 	else:

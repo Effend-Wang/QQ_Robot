@@ -8,16 +8,16 @@ from json import loads
 import message_operate
 import send_message
 
-# 创建一个服务器对象
+# 创建一个服务对象
 bot_server=Flask(__name__)
 
-# 指定服务器对象的API地址及通信模式
+# 指定服务对象的API地址及通信模式
 @bot_server.route('/api/message',methods=['POST'])
 
 # 定义服务器模块
 def server():
 	# 初始化
-	self_id=<robot_qqnumber>
+	self_id=3522235363
 
 	# 接收消息
 	data=request.get_data().decode('utf-8')
@@ -38,4 +38,4 @@ def server():
 	return ""
 
 if __name__=='__main__':
-	bot_server.run(port=<port>)
+	bot_server.run(port=5701)

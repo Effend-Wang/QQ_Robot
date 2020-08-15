@@ -5,7 +5,7 @@ from json import loads
 import pytz
 import time
 import datetime
-import warframe.zh_query as zh_query
+from warframe.warframe_translation import info_trans
 import re
 
 # API链接
@@ -155,9 +155,9 @@ def get_arbitration():
 		node=data.get("node")
 		pick_out=re.findall(r'[(](.*?)[)]',node)
 		if pick_out==[]:
-			node=zh_query.trans_zh(node)
+			node=info_trans(node)
 		else:
-			pick_out=zh_query.trans_zh(pick_out)[0]
+			pick_out=info_trans(pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			node=re.sub(pattern,pick_out,node)
@@ -165,7 +165,7 @@ def get_arbitration():
 		enemy=data.get("enemy")
 		# 任务类型
 		mission_type=data.get("type")
-		mission_type=zh_query.trans_zh(mission_type)
+		mission_type=info_trans(mission_type)
 
 		message_to_send="\n------仲裁信息------"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
 
@@ -283,15 +283,14 @@ def get_cetus_mission():
 			
 			# 赏金奖励
 			job_reward=jobs[i].get("rewardPool")
-			job_reward=zh_query.trans_zh(job_reward)
 			reward_length=len(job_reward)
 			rewards=""
 			for n in range(reward_length):
-				rewards=rewards+job_reward[n]+"；"
+				rewards=rewards+info_trans(job_reward[n])+"；"
 			
 			# 赏金名
 			job_type=jobs[i].get("type")
-			job_type=zh_query.trans_zh(job_type)
+			job_type=info_trans(job_type)
 
 			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
 		
@@ -310,7 +309,7 @@ def get_darvo_daily_deal():
 	else:
 		data=data[0]
 		item=data.get("item")
-		item=zh_query.trans_zh(item)
+		item=info_trans(item)
 		expiry=data.get("expiry")
 		originalprice=data.get("originalPrice")
 		saleprice=data.get("salePrice")
@@ -361,15 +360,14 @@ def get_orb_mission():
 			
 			# 赏金奖励
 			job_reward=jobs[i].get("rewardPool")
-			job_reward=zh_query.trans_zh(job_reward)
 			reward_length=len(job_reward)
 			rewards=""
 			for n in range(reward_length):
-				rewards=rewards+job_reward[n]+"；"
+				rewards=rewards+info_trans(job_reward[n])+"；"
 			
 			# 赏金名
 			job_type=jobs[i].get("type")
-			job_type=zh_query.trans_zh(job_type)
+			job_type=info_trans(job_type)
 
 			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
 		
@@ -400,7 +398,7 @@ def get_events():
 
 			# 事件描述
 			description=data[i].get("description")
-			description=zh_query.trans_zh(description)
+			description=info_trans(description)
 
 			maximumscore=data[i].get("maximumScore")
 			currentscore=data[i].get("currentScore")
@@ -409,9 +407,9 @@ def get_events():
 			node=data[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]', node)
 			if pick_out==[]:
-				node=zh_query.trans_zh(node)
+				node=info_trans(node)
 			else:
-				pick_out=zh_query.trans_zh(pick_out)[0]
+				pick_out=info_trans(pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -427,7 +425,7 @@ def get_events():
 						rewards_message="无奖励"
 					else:
 						rewards_message=""
-						rewards_list=zh_query.trans_zh(rewards_list)
+						rewards_list=info_trans(rewards_list)
 						for m in range(len(rewards_list)):
 							rewards_message=rewards_message+rewards_list[m]+"；"
 					rewards=rewards+"\n阶段"+str(n+1)+"："+rewards_message
@@ -466,15 +464,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=zh_query.trans_zh(missiontype)
+				missiontype=info_trans(missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -489,15 +487,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=zh_query.trans_zh(missiontype)
+				missiontype=info_trans(missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 				
@@ -512,15 +510,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=zh_query.trans_zh(missiontype)
+				missiontype=info_trans(missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -535,15 +533,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=zh_query.trans_zh(missiontype)
+				missiontype=info_trans(missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -558,15 +556,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=zh_query.trans_zh(missiontype)
+				missiontype=info_trans(missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -600,23 +598,23 @@ def get_invasions():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]',node)
 				if pick_out==[]:
-					node=zh_query.trans_zh(node)
+					node=info_trans(node)
 				else:
-					pick_out=zh_query.trans_zh(pick_out)[0]
+					pick_out=info_trans(pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 入侵描述
 				desc=data[i].get("desc")
-				desc=zh_query.trans_zh(desc)
+				desc=info_trans(desc)
 				# 攻击方和奖励
 				attacker=data[i].get("attackingFaction")
 				attackreward=data[i].get("attackerReward").get("asString")
-				attackreward=zh_query.trans_zh(attackreward)
+				attackreward=info_trans(attackreward)
 				# 防守方和奖励
 				defender=data[i].get("defendingFaction")
 				defendreward=data[i].get("defenderReward").get("asString")
-				defendreward=zh_query.trans_zh(defendreward)
+				defendreward=info_trans(defendreward)
 
 				# 进度
 				process=data[i].get("completion")
@@ -670,9 +668,9 @@ def get_kuva():
 			node=data[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]',node)
 			if pick_out==[]:
-				node=zh_query.trans_zh(node)
+				node=info_trans(node)
 			else:
-				pick_out=zh_query.trans_zh(pick_out)[0]
+				pick_out=info_trans(pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -723,9 +721,9 @@ def get_nightwave():
 		week=""
 		for i in range(all_challenges_length):
 			title=data[i].get("title")
-			title=zh_query.trans_zh(title)
+			title=info_trans(title)
 			desc=data[i].get("desc")
-			desc=zh_query.trans_zh(desc)
+			desc=info_trans(desc)
 			reputation=data[i].get("reputation")
 			# 获取每日任务
 			if data[i].get("isDaily"):
@@ -760,13 +758,13 @@ def get_sentient_outpost():
 		node=data.get("mission").get("node")
 		pick_out=re.findall(r'[(](.*?)[)]',node)
 		if pick_out==[]:
-			node=zh_query.trans_zh(node)
+			node=info_trans(node)
 		else:
-			pick_out=zh_query.trans_zh(pick_out)[0]
+			pick_out=info_trans(pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			node=re.sub(pattern,"",node).rstrip()
-			node=zh_query.trans_zh(node)
+			node=info_trans(node)
 			node=node+" "+pick_out
 
 		expiry=data.get("expiry")
@@ -807,15 +805,15 @@ def get_sortie():
 		sortie_mission=""
 		for i in range(all_mission_length):
 			mission_type=mission_list[i].get("missionType")
-			mission_type=zh_query.trans_zh(mission_type)
+			mission_type=info_trans(mission_type)
 			modifier=mission_list[i].get("modifier")
-			modifier=zh_query.trans_zh(modifier)
+			modifier=info_trans(modifier)
 			node=mission_list[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]',node)
 			if pick_out==[]:
-				node=zh_query.trans_zh(node)
+				node=info_trans(node)
 			else:
-				pick_out=zh_query.trans_zh(pick_out)[0]
+				pick_out=info_trans(pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -848,9 +846,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -870,9 +868,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -891,9 +889,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -912,9 +910,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -933,9 +931,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -954,9 +952,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=zh_query.trans_zh(single_node)
+						single_node=info_trans(single_node)
 					else:
-						pick_out=zh_query.trans_zh(pick_out)[0]
+						pick_out=info_trans(pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -983,13 +981,13 @@ def get_void_trader():
 		location=data.get("location")
 		pick_out=re.findall(r'[(](.*?)[)]',location)
 		if pick_out==[]:
-			location=zh_query.trans_zh(location)
+			location=info_trans(location)
 		else:
-			pick_out=zh_query.trans_zh(pick_out)[0]
+			pick_out=info_trans(pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			location=re.sub(pattern,"",location).rstrip()
-			location=zh_query.trans_zh(location)
+			location=info_trans(location)
 			location=location+" "+pick_out
 		inventory=data.get("inventory")
 		active=data.get("active")
@@ -1000,7 +998,7 @@ def get_void_trader():
 			inventory_list=""
 			for i in range(len(inventory)):
 				item=inventory[i].get("item")
-				item=zh_query.trans_zh(item)
+				item=info_trans(item)
 				credits=inventory[i].get("credits")
 				ducats=inventory[i].get("ducats")
 				inventory_list=inventory_list+"\n"+str(i+1)+"、"+item+"，奸商币："+str(ducats)+"，星币："+str(credits)
