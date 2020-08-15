@@ -574,6 +574,7 @@ def get_fissures():
 
 	return message_to_send
 
+# 获取全服加成信息，暂时未开发
 def get_global_upgrades():
 	message_to_send=""
 
@@ -773,6 +774,7 @@ def get_sentient_outpost():
 
 	return message_to_send
 
+# 查询Simaris任务信息，由于查询内容无意义，不再开发
 def get_sanctuary():
 	message_to_send=""
 	url=warframe_worldstate_api+sanctuary
@@ -841,7 +843,7 @@ def get_syndicate_mission():
 				nodes=data[i].get("nodes")
 
 				nodes_length=len(nodes)
-				steel_meridian="\n\n钢铁防线："
+				steel_meridian="\n钢铁防线："
 				for n in range(nodes_length):
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
