@@ -2,7 +2,7 @@
 
 # 导入第三方库
 from flask import Flask,request
-from json import loads
+from json import loads,dumps
 
 # 导入程序库
 import message_operate
@@ -21,7 +21,7 @@ def server():
 
 	# 接收消息
 	data=request.get_data().decode('utf-8')
-	data=loads(data)
+	data=eval(data)
 
 	# 避免自我回复
 	if data.get("FromQQ").get("UIN")==self_id:

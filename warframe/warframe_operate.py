@@ -4,7 +4,10 @@ import warframe.warframe_info as warframe_info
 import warframe.warframe_market as warframe_market
 import warframe.warframe_translation as warframe_translation
 
-def warframe(message_check,message_from_user):
+def warframe(message_from_user):
+
+	message_check=message_from_user.split(" ",1)
+
 	if (message_check[0].upper()=="CX" or message_check[0]=="查询"):
 		message_to_send=warframe_info.get_info(message_from_user)
 	elif (message_check[0].upper()=="WM" or message_check[0]=="市场"):

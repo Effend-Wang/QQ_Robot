@@ -45,7 +45,7 @@ arcane_enhancement="arcanes/search/"	# 赋能查询（需在链接后添加"{<ar
 # 查询信息并返回输出信息
 def get_info(message_from_user):
 	message_to_send=""
-	message_from_user=message_from_user.split()
+	message_from_user=message_from_user.split(" ",1)
 
 	# 检查是否可链接到API地址，若无法链接则直接返回空字符串
 	connect_status=requests.get(warframe_api_connect).text

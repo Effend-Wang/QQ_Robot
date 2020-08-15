@@ -16,6 +16,7 @@ import urllib
 import requests
 import chat_authority
 from warframe.warframe_operate import warframe
+from admin.admin_operate import admin
 
 # 消息发送模块主程序
 def send(self_id,data):
@@ -53,9 +54,9 @@ def send(self_id,data):
 			authority=chat_authority.get_authority(group_id,user_id)
 			if (authority==False):
 				return ""
-			print("开始创建消息")
+			#print("开始创建消息")
 			message_to_send=message_create(message,authority)
-			print(message_to_send)
+			#print(message_to_send)
 		else:
 			return ""
 	else:
@@ -92,14 +93,13 @@ def message_create(message_from_user,authority):
 		return ""
 
 	if (authority.get("warframe") and message_to_send==""):
-		message_to_send=warframe(message_check,message_from_user)
+		message_to_send=warframe(message_from_user)
 
 	if (authority.get("honkai3") and message_to_send==""):
 		pass
 
 	if (authority.get("admin") and message_to_send==""):
 		if (message_check[0].upper()=="ADMIN"):
-			pass
-		pass
+			message_to_send=admin(message_from_user)
 
 	return message_to_send
