@@ -5,6 +5,7 @@ data/config/
 
 # Ignore test files
 test.py
+All\ Examples/Test\ Examples
 
 # Ignore python cache files
 __pycache__

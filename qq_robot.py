@@ -2,29 +2,31 @@
 
 # 导入第三方库
 from flask import Flask,request
-from json import loads,dumps
 
 # 导入程序库
 import message_operate
 import send_message
+import os
 
 # 创建一个服务对象
 bot_server=Flask(__name__)
+self_id_path=os.getcwd()+"/data/config/self_id.txt"
+with open(self_id_path) as file:
+	self_id=file.read()
 
 # 指定服务对象的API地址及通信模式
 @bot_server.route('/api/message',methods=['POST'])
 
 # 定义服务器模块
 def server():
-	# 初始化
-	self_id=3522235363
 
 	# 接收消息
 	data=request.get_data().decode('utf-8')
 	data=eval(data)
 
 	# 避免自我回复
-	if data.get("FromQQ").get("UIN")==self_id:
+	#print(str(data.get("FromQQ").get("UIN"))==self_id)
+	if str(data.get("FromQQ").get("UIN"))==self_id:
 		return ""
 
 	# 处理消息

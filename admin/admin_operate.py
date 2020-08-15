@@ -12,10 +12,12 @@ def admin(message_from_user):
 		message_to_send=admin_database.admin_add(message_from_user)
 
 	elif (message_check[1].upper()=="DELETE" or message_check[1]=="删除"):
-		message_to_send=admin_database.admin_delete(message_from_user)
+		#message_to_send=admin_database.admin_delete(message_from_user)
+		message_to_send=""
 
 	elif (message_check[1].upper()=="UPDATE" or message_check[1]=="更改"):
-		message_to_send=admin_database.admin_update(message_from_user)
+		#message_to_send=admin_database.admin_update(message_from_user)
+		message_to_send=""
 
 	elif (message_check[1]=="数据库"):
 		message_to_send=admin_database.database_owned()
