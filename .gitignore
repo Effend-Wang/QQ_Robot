@@ -17,3 +17,6 @@ Dependent\ Program
 build
 dist
 *.spec
+
+# Ignore normal files
+*.zip
