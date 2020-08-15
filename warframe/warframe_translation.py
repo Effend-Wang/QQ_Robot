@@ -10,15 +10,15 @@ def game_trans(message_from_user):
 	operate="query"
 	db_path=recent_path+"/data/warframe/warframe_info.mdb"
 	result=[]
-	print(message_from_user)
+	#print(message_from_user)
 	if (message_from_user[1]=="zh" or message_from_user[1]=="中文"):
-		print("查询中文")
+		#print("查询中文")
 		value="zh LIKE '%"+value+"%'"
 		result=database_operate.access_operate(operate,value,db_path)
 		if result!=[]:
 			after_trans=result[0][0]
 	elif (message_from_user[1]=="en" or message_from_user[1]=="英文"):
-		print("查询英文")
+		#print("查询英文")
 		value="en LIKE '%"+value+"%'"
 		result=database_operate.access_operate(operate,value,db_path)
 		if result!=[]:
