@@ -9,3 +9,6 @@ All\ Examples/Test\ Examples
 
 # Ignore python cache files
 __pycache__
+
+# Ignore Dependent program
+Dependent\ Program
