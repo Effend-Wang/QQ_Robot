@@ -12,3 +12,8 @@ __pycache__
 
 # Ignore Dependent program
 Dependent\ Program
+
+# Ignore python pyinstaller files
+build
+dist
+*.spec
