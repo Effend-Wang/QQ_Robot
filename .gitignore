@@ -11,7 +11,7 @@ All\ Examples/Test\ Examples
 __pycache__
 
 # Ignore Dependent program
-Dependent\ Program
+Runtime\ Environment
 
 # Ignore python pyinstaller files
 build
