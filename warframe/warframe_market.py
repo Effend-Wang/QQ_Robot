@@ -38,7 +38,7 @@ def get_market(message_from_user):
 
 			sell_list=""
 			for i in range(online_length):
-				if (i<10):
+				if (i<5):
 					ingame_name=online_list[i].get("user").get("ingame_name")
 					platinum=int(online_list[i].get("platinum"))
 					reputation=online_list[i].get("user").get("reputation")
@@ -60,11 +60,12 @@ def get_market(message_from_user):
 					if (data[n].get("url_name")==url_name):
 						item_name="（"+data[n].get("en").get("item_name")+"）"
 						break
-			if i>=10:
-				i=9
+			if i>=5:
+				i=4
 
-			message_to_send="\n------WM："+message_from_user[1]+item_name+"------\n游戏在线卖家中最低价的"+str(i+1)+"位："+sell_list+"\nWM链接："+orders_web
-
+			#message_to_send="\n------WM："+message_from_user[1]+item_name+"------\n游戏在线卖家中最低价的"+str(i+1)+"位："+sell_list+"\nWM链接："+orders_web
+			message_to_send="------WM："+message_from_user[1]+item_name+"------\n在线卖家中最低价的"+str(i+1)+"位："+sell_list
+			
 	return message_to_send
 
 

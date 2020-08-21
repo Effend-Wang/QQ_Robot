@@ -42,6 +42,7 @@ def send(self_id,data):
 		if (authority==False):
 			return ""
 		message_to_send=message_create(message,authority)
+		print(message_to_send)
 	#elif (message_type=="group" and at_status):
 	elif (message_type=="group"):
 		#group_send_status=False
@@ -56,7 +57,8 @@ def send(self_id,data):
 				return ""
 			#print("开始创建消息")
 			message_to_send=message_create(message,authority)
-			#print(message_to_send)
+			print(message_to_send)
+			#message_to_send="------WM：弹指瞬技（Fleeting Expertise）------\n在线卖家中最低价的10位：\n1. 卖家：MrZielu，售价：15，信誉点：1"
 		else:
 			return ""
 	else:
@@ -79,7 +81,8 @@ def send(self_id,data):
 		data={
 			"fromqq":self_id,
 			"togroup":group_id,
-			"text":"[@"+str(user_id)+"] "+message_to_send
+			#"text":"[@"+str(user_id)+"] "+message_to_send
+			"text":message_to_send
 		}
 		r=requests.post(api_url,data=data)
 	#print(r.text)
