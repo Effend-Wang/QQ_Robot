@@ -42,7 +42,7 @@ def send(self_id,data):
 		if (authority==False):
 			return ""
 		message_to_send=message_create(message,authority)
-		print(message_to_send)
+		#print(message_to_send)
 	#elif (message_type=="group" and at_status):
 	elif (message_type=="group"):
 		#group_send_status=False
