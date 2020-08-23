@@ -10,6 +10,7 @@ import os
 
 # 创建一个服务对象
 bot_server=Flask(__name__)
+
 self_id_path=os.getcwd()+"/data/config/self_id.txt"
 with open(self_id_path) as file:
 	self_id=file.read()

@@ -2,13 +2,17 @@
 import os
 import database_operate
 
+db_game="/data/warframe/warframe_game.mdb"
+db_info="/data/warframe/warframe_info.mdb"
+db_market="/data/warframe/warframe_market.mdb"
+
 # 数据库结构为 [en, zh]，查询采用模糊查询
 def game_trans(message_from_user):
 	message_from_user=message_from_user.split(" ",2)
 	value=message_from_user[2]
 	recent_path=os.getcwd()
 	operate="query"
-	db_path=recent_path+"/data/warframe/warframe_game.mdb"
+	db_path=recent_path+db_game
 	result=[]
 	#print(message_from_user)
 	if (message_from_user[1]=="zh" or message_from_user[1]=="中文"):
@@ -38,7 +42,7 @@ def info_trans(value):
 	after_trans=value
 	recent_path=os.getcwd()
 	operate="query"
-	db_path=recent_path+"/data/warframe/warframe_info.mdb"
+	db_path=recent_path+db_info
 	value="en='"+value+"'"
 	result=database_operate.access_operate(operate,value,db_path)
 	if result!=[]:
@@ -51,7 +55,7 @@ def market_trans(value):
 	after_trans=value
 	recent_path=os.getcwd()
 	operate="query"
-	db_path=recent_path+"/data/warframe/warframe_market.mdb"
+	db_path=recent_path+db_market
 	value="zh='"+value.upper()+"'"
 	result=database_operate.access_operate(operate,value,db_path)
 	if result!="":
