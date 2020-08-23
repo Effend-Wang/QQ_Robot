@@ -8,7 +8,7 @@ def game_trans(message_from_user):
 	value=message_from_user[2]
 	recent_path=os.getcwd()
 	operate="query"
-	db_path=recent_path+"/data/warframe/warframe_info.mdb"
+	db_path=recent_path+"/data/warframe/warframe_game.mdb"
 	result=[]
 	#print(message_from_user)
 	if (message_from_user[1]=="zh" or message_from_user[1]=="中文"):

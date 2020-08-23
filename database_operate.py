@@ -15,7 +15,7 @@ def access_operate(operate,value,db_path):
 
 	return result
 
-# 数据库查询，db_path为数据库路径，value为xxx=xxx and xxx=xxx形式
+# 数据库查询，db_path为数据库路径，value为xxx=xxx and xxx=xxx格式
 def access_query(db_path,value):
 	try:
 		db=pypyodbc.connect(r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=%s' % db_path)
@@ -28,6 +28,7 @@ def access_query(db_path,value):
 	except:
 		return []
 
+# 数据库查询，db_path为数据库路径，value为('','',...)格式
 def access_add(db_path,value):
 	try:
 		db=pypyodbc.connect(r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=%s' % db_path)

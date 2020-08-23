@@ -12,7 +12,6 @@
 #	"message_status":message_status
 #}
 
-import urllib
 import requests
 import chat_authority
 from warframe.warframe_operate import warframe

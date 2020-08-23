@@ -1,8 +1,10 @@
-HTTP API V1.0.3
-***注意:插件返回值已全部更新为UTF8编码，请注意***
+HTTP API V1.0.3b3
+***注意:URL编码已更新 请注意"+",<space>的变化***
+***注意:插件返回值，事件上报已全部更新为UTF8编码，请注意***
 **当前版本已支持事件上报 如需要请在菜单中配置 上报地址应为您服务端上的一个动态页面(需支持POST)**
 *由于本人的失误，请注意api返回值中\r和\n的变化
-提示:有问题请私聊 尽量对照官方sdk尝试解决
+ 修复了/ws导致插件崩溃的bug
+提示:有问题请私聊QQ:1803258597 尽量对照官方sdk尝试解决
 本插件默认监听本地10429端口，默认只接收来自127.0.0.1的HTTP请求(您可在菜单中修改)
 如需密码登录 请在cookies中携带pass项，它应该等于md5(密码,32)，否则返回"Access denied."
 注意:请在您的HTTP API插件关闭前删除会话，否则可能导致内存占用较大
@@ -11,173 +13,118 @@ HTTP API V1.0.3
 中文消息内容乱码请使用UTF8编码解决
 API列表:
 [WebSocket]监听事件:/
-  **注意:由于种种原因，WebSocket方法仅能通知您新事件产生(NewEvent)，须获取事件请调用API获取**
-
+  **注意:由于种种原因，本地址仅能通知您新事件产生(NewEvent)或，须获取事件请调用API获取或连接到/ws**
+[WebSocket]监听并接收事件:/ws
 [POST]申请会话(缓冲区):/allocsession
-
 [POST]删除会话(缓冲区):/removesession
   提交请求参数:[必须]sessid 指定会话(缓冲区)id
-
 [POST]清空事件缓冲区:/resetevent
   提交请求参数:[必须]sessid 指定会话(缓冲区)id
-
 [POST]获取并清空事件缓冲区:/getevent
   提交请求参数:[必须]sessid 指定会话(缓冲区)id
-
 [POST]获取并清空事件缓冲区v2(支持直接解析json):/geteventv2
   提交请求参数:[必须]sessid 指定会话(缓冲区)id
-
 [POST]发送好友消息:/sendprivatemsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定好友QQ [必须]text 指定消息内容(存在特殊字符请使用URL编码)
-
 [POST]发送群消息:/sendgroupmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]text 指定消息内容(存在特殊字符请使用URL编码) [可选]anonymous 指定是否匿名(true,false)
-
 [POST]发送群临时消息:/sendgrouptempmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 群号 [必须]toqq 指定对方QQ [必须]text 指定消息内容(特殊字符请使用URL编码)
-
 [POST]添加好友:/addfriend
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [可选]text 指定附言
-
 [POST]添加群:/addgroup
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [可选]text 指定附言
-
 [POST]删除好友:/deletefriend
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ
-
 [POST]置屏蔽好友:/setfriendignmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [必须]ignore 指定是否屏蔽(true,false)
-
 [POST]置特别关心好友:/setfriendcare
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [必须]care 指定是否关心(true,false)
-
 [POST]发送好友XML消息:/sendprivatexmlmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [必须]xml 指定消息内容(存在特殊字符请使用URL编码)
-
 [POST]发送群XML消息:/sendgroupxmlmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]xml 指定消息内容(存在特殊字符请使用URL编码) [可选]anonymous 指定是否匿名(true,false)
-
 [POST]发送好友JSON消息:/sendprivatejsonmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [必须]json 指定消息内容(存在特殊字符请使用URL编码)
-
 [POST]发送群JSON消息:/sendgroupjsonlmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]json 指定消息内容(存在特殊字符请使用URL编码) [可选]anonymous 指定是否匿名(true,false)
-
 [POST]上传好友图片，返回值可用于发送图片:/sendprivatepic
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定好友QQ [可选]fromtype 指定图片来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]pic 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码) [可选]flashpic 指定是否闪照(true,false)
-
 [POST]上传群图片，返回值可用于发送图片:/sendgrouppic
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [可选]fromtype 指定图片来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]pic 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码) [可选]flashpic 指定是否闪照(true,false)
-
 [POST]向好友发送语音:/sendprivateaudio
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定好友QQ [可选]type 指定语音类型(0普通语音,1变声语音,2文字语音,3红包匹配语音) [可选]text 指定语音文字 [可选]fromtype 指定语音来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]audio 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码)
-
 [POST]向群发送语音:/sendgroupaudio
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [可选]type 指定语音类型(0普通语音,1变声语音,2文字语音,3红包匹配语音) [可选]text 指定语音文字 [可选]fromtype 指定语音来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]audio 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码)
-
 [POST]上传头像:/uploadfacepic
   提交请求参数:[必须]fromqq 指定框架QQ [可选]fromtype 指定图片来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]pic 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码)
-
 [POST]上传群头像:/uploadgroupfacepic
   提交请求参数:[必须]fromqq 指定框架QQ  [必须]group 指定群号 [可选]fromtype 指定图片来源类型(0:pic参数,1:本地文件,2:网络文件 默认为0) [fromtype=0时必须]pic 指定数据(请使用BASE64+URL编码:url_encode(base64_encode(src))) [fromtype=1时必须]path 指定文件路径(请使用绝对路径,存在特殊字符请使用URL编码) [fromtype=2时必须]url 指定文件url(存在特殊字符请使用URL编码)
-
 [POST]设置群名片:/setgroupcard
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]toqq 指定群成员QQ [必须]card 指定群名片(存在特殊字符请使用URL编码)
-
 [POST]取昵称:/getnickname
   提交请求参数:[不使用缓存则必须,使用缓存则不须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [可选]fromcache 指定是否使用缓存(true,false)
-
 [POST]从缓存取群名称:/getgroupnamefromcache
   提交请求参数:[必须]group 指定群号
 [GET,POST]取框架QQ:/getlogonqq
-
 [POST]取好友列表:/getfriendlist
   提交请求参数:[必须]logonqq 指定框架QQ
-
 [POST]取群列表:/getgrouplist
   提交请求参数:[必须]logonqq 指定框架QQ
-
 [POST]取群成员列表:/getgroupmemberlist
   提交请求参数:[必须]logonqq 指定框架QQ [必须]group 指定群号
-
 [POST]设置管理员:/setgroupmgr
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]toqq 指定对方QQ [必须]bemgr 是否成为管理员(true,false)
-
 [POST]取管理层列表:/getgroupmgrlist
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号
-
 [POST]取群名片:/getgroupcard
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]toqq 指定对方QQ
-
 [POST]取个性签名:/getsignat
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ
-
 [POST]设置昵称:/setnickname
   提交请求参数:[必须]fromqq 指定框架QQ [必须]nickname 指定昵称
-
 [POST]设置个性签名:/setsignat
   提交请求参数:[必须]fromqq 指定框架QQ [必须]signature 指定个性签名
-
 [POST]移出群成员:/kickgroupmember
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]toqq 指定对方QQ [可选]ignoreaddgrequest 拒绝再加群申请(true,false)
-
 [POST]禁言群成员:/mutegroupmember
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]toqq 指定对方QQ [必须]time 指定禁言时长(以秒计)
-
 [POST]退群:/exitgroup
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号
-
 [POST]解散群:/dispgroup
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号
-
 [POST]全员禁言:/setgroupwholemute
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]ismute 指定是否禁言(true,false)
-
 [POST]置群员权限_发起新的群聊:/setgrouppriv_newgroup
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_发起临时会话:/setgrouppriv_newtempsession
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_上传文件:/setgrouppriv_uploadfile
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_上传相册:/setgrouppriv_uploadphotoalbum
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_邀请他人加群:/setgrouppriv_invitein
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_匿名聊天:/setgrouppriv_anonymous
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_坦白说:/setgrouppriv_tanbaishuo
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_新成员查看历史消息:/setgrouppriv_newmembercanviewhistorymsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]allow 指定是否允许(true,false)
-
 [POST]置群员权限_邀请方式:/setgrouppriv_inviteway
   提交请求参数:[必须]fromqq 指定框架QQ [必须]togroup 指定群号 [必须]way 指定方式(1.无需审核;2.需要管理员审核;3.100人以内无需审核)
-
 [POST]撤回群聊消息:/deletegroupmsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]random 发送消息返回(或事件给出)的random [必须]req 发送消息返回(或事件给出)的req
-
 [POST]撤回私聊消息:/deleteprivatemsg
   提交请求参数:[必须]fromqq 指定框架QQ [必须]toqq 指定对方QQ [必须]random 发送消息返回的random [必须]req 发送消息返回的req [必须]time 发送消息返回的
-
 [POST]设置位置共享:/setsharepos
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]posx 指定经度 [必须]posy 指定纬度 [必须]enable 指定是否开启
-
 [POST]上报当前位置:/uploadpos
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]posx 指定经度 [必须]posy 指定纬度
-
 [POST]取禁言时间:/getmutetime
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号
-
 [POST]处理群验证事件:/setgroupaddrequest
   提交请求参数:[必须]fromqq 指定框架QQ [必须]group 指定群号 [必须]qq 指定来源QQ [必须]seq 指定seq [必须]op 指定处理类型(11同意 12拒绝  14忽略) [必须]type 指定事件类型(群事件_某人申请加群:3 群事件_我被邀请加入群:1)
-
 [POST]处理好友验证事件:/setfriendaddrequest
   提交请求参数:[必须]fromqq 指定框架QQ [必须]qq 指定来源QQ [必须]seq 指定seq [必须]op 指定处理类型(1同意 2拒绝)
 [POST]上传文件:/uploadfile
@@ -209,4 +156,10 @@ API列表:
   提交请求参数:[必须]logonqq 指定框架QQ [必须]qq 指定欲查询QQ
 [POST]分享音乐:/sharemusic
   提交请求参数:[必须]logonqq 指定框架QQ [可选]totype 指定分享对象类型(0私聊 1群聊  默认0) [必须]to 指定分享对象(分享的群或分享的好友QQ) [必须]musicname 指定歌曲名(存在特殊字符请使用URL编码) [必须]singername 指定歌手名(存在特殊字符请使用URL编码) [必须]jumpurl 指定跳转地址(点击音乐json后跳转的地址)(存在特殊字符请使用URL编码) [必须]wrapperurl 指定封面地址(音乐的封面图片地址)(存在特殊字符请使用URL编码) [必须]fileurl 指定文件地址(音乐源文件地址，如https://xxx.com/xxx.mp3)(存在特殊字符请使用URL编码) [可选]apptype 指定应用类型(0QQ音乐 1虾米音乐 2酷我音乐 3酷狗音乐 4网抑云音乐  默认0)
+[POST]获取skey:/getskey
+  提交请求参数:[必须]logonqq 指定框架QQ
+[POST]获取skey:/getpskey
+  提交请求参数:[必须]logonqq 指定框架QQ [必须]domain 指定域(tenpay.com;openmobile.qq.com;docs.qq.com;connect.qq.com;qzone.qq.com;vip.qq.com;gamecenter.qq.com;qun.qq.com;game.qq.com;qqweb.qq.com;ti.qq.com;office.qq.com;mail.qq.com;mma.qq.com)
+[POST]获取clientkey:/getclientkey
+  提交请求参数:[必须]logonqq 指定框架QQ
 //以后的版本中将会增加更多的API
