@@ -12,6 +12,8 @@ def access_operate(operate,value,db_path):
 		set_value=value.split(2)[0]
 		value=value.split(2)[1]
 		result=access_update(db_path,set_value,value)
+	elif operate=="all":
+		result=access_all(db_path)
 
 	return result
 
@@ -67,3 +69,15 @@ def access_update(db_path,set_value,value):
 		return True
 	except:
 		return False
+
+def access_all(db_path):
+	try:
+		db=pypyodbc.connect(r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=%s' % db_path)
+		cursor=db.cursor()
+		command="SELECT * from data"
+		result=[i for i in cursor.execute(command)]
+		cursor.close()
+		db.close()
+		return result
+	except:
+		return []

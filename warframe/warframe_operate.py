@@ -13,6 +13,7 @@ def warframe(message_from_user):
 	elif (message_check[0].upper()=="WM" or message_check[0]=="市场"):
 		message_to_send=warframe_market.get_market(message_from_user)
 	elif (message_check[0].upper()=="FY" or message_check[0]=="翻译"):
+		data_name="warframe_translation"
 		message_to_send=warframe_translation.game_trans(message_from_user)
 	else:
 		message_to_send=""

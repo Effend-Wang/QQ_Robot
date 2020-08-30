@@ -3,34 +3,46 @@
 import os
 from database_operate import access_operate
 
-warframe_info="/data/warframe/warframe_info.mdb"
-warframe_market="/data/warframe/warframe_market.mdb"
-warframe_game="/data/warframe/warframe_game.mdb"
+# Warframe数据库
+db_warframe={
+	"warframe_events":"/data/warframe/warframe_events.mdb",
+	"warframe_invasions":"/data/warframe/warframe_invasions.mdb",
+	"warframe_landscape":"/data/warframe/warframe_landscape.mdb",
+	"warframe_market":"/data/warframe/warframe_market.mdb",
+	"warframe_missiontype":"/data/warframe/warframe_missiontype.mdb",
+	"warframe_news":"/data/warframe/warframe_news.mdb",
+	"warframe_nightwave":"/data/warframe/warframe_nightwave.mdb",
+	"warframe_node":"/data/warframe/warframe_node.mdb",
+	"warframe_openplain":"/data/warframe/warframe_openplain.mdb",
+	"warframe_sortie":"/data/warframe/warframe_sortie.mdb",
+	"warframe_translation":"/data/warframe/warframe_translation.mdb",
+	"warframe_voidtrader":"/data/warframe/warframe_voidtrader.mdb"
+}
 
 def database_owned():
-	db_list=["warframe_info","warframe_market","warframe_game"]
-	length=len(db_list)
-	message_to_send=""
-	for i in range(length):
-		message_to_send=message_to_send+"\n"+db_list[i]
-	message_to_send="\n可操作数据库列表："+message_to_send
+	warframe_db_list="\nWarframe数据库："
+	for key,value in db_warframe.items():
+		warframe_db_list=warframe_db_list+"\n"+key
+	message_to_send="\n可操作数据库列表："+warframe_db_list
 
 	return message_to_send
 
 # 获取数据库地址
 def get_path(db_name):
-	recent_path=os.getcwd()
+	#recent_path=os.getcwd()
 	#print(recent_path)
 	#print(db_name)
 	#print(db_name.upper())
-	if (db_name.upper()=="WARFRAME_INFO"):
-		db_path=recent_path+warframe_info
-	elif (db_name.upper()=="WARFRAME_MARKET"):
-		db_path=recent_path+warframe_market
-	elif (db_name.upper()=="WARFRAME_GAME"):
-		db_path=recent_path+warframe_game
-	else:
-		return ""
+	#if (db_name.upper()=="WARFRAME_INFO"):
+		#db_path=recent_path+db_warframe.get("warframe_info")
+	#elif (db_name.upper()=="WARFRAME_MARKET"):
+		#db_path=recent_path+warframe_market
+	#elif (db_name.upper()=="WARFRAME_GAME"):
+		#db_path=recent_path+warframe_game
+	#else:
+		#return ""
+
+	db_path=os.getcwd()+db_warframe.get(db_name.lower())
 
 	if os.path.exists(db_path)==False:
 		print("Path False")

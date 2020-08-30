@@ -2,18 +2,25 @@
 
 # 导入第三方库
 from flask import Flask,request
+import os
 
 # 导入程序库
 import message_operate
 import send_message
-import os
+from config_globalvar import config_db_loading
+from warframe.warframe_globalvar import warframe_db_loading
 
 # 创建一个服务对象
 bot_server=Flask(__name__)
 
+# 定义机器人帐号
 self_id_path=os.getcwd()+"/data/config/self_id.txt"
 with open(self_id_path) as file:
 	self_id=file.read()
+
+# 加载数据库
+config_db_loading()
+warframe_db_loading()
 
 # 指定服务对象的API地址及通信模式
 @bot_server.route('/api/message',methods=['POST'])

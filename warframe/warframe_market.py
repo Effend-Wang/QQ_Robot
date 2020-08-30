@@ -6,10 +6,11 @@ from warframe.warframe_translation import market_trans
 warframe_market_api="https://api.warframe.market/v1"
 warframe_market_web="https://warframe.market"
 all_items="/items"
+data_name="warframe_market"
 
 def get_market(message_from_user):
 	message_from_user=message_from_user.strip().split(" ",1)
-	url_name=market_trans(message_from_user[1].upper())
+	url_name=market_trans(data_name,message_from_user[1].upper())
 	if (url_name==message_from_user[1].upper()):
 		message_to_send="\n未能查到相关物品，请检查输入的物品格式！"
 	else:

@@ -9,6 +9,8 @@
 import database_operate
 import os
 
+from config_globalvar import get_config_dict
+
 def get_list(group_id,user_id):
 	recent_path=os.getcwd()
 	operate="query"

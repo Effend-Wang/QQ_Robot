@@ -42,6 +42,19 @@ orb_vallis="vallisCycle"	# 奥布山谷冷/暖循环信息
 void_trader="voidTrader"	# 虚空商人信息
 arcane_enhancement="arcanes/search/"	# 赋能查询（需在链接后添加"{<arcanes_name>}"）
 
+# 数据库名定义（翻译用传值）
+warframe_darvo="warframe_darvo"
+warframe_events="warframe_events"
+warframe_invasions="warframe_invasions"
+warframe_landscape="warframe_landscape"
+warframe_missiontype="warframe_missiontype"
+warframe_news="warframe_news"
+warframe_nightwave="warframe_nightwave"
+warframe_node="warframe_node"
+warframe_openplain="warframe_openplain"
+warframe_sortie="warframe_sortie"
+warframe_voidtrader="warframe_voidtrader"
+
 # 查询信息并返回输出信息
 def get_info(message_from_user):
 	message_to_send=""
@@ -73,6 +86,9 @@ def get_info(message_from_user):
 
 	elif (message_from_user[1]=="orb" or message_from_user[1]=="奥布山谷" or message_from_user[1]=="福尔图娜" or message_from_user[1]=="金星平原"):
 		message_to_send=get_all_cycle()+"\n"+get_orb_mission()
+
+	elif (message_from_user[1]=="循环"):
+		message_to_send=get_all_cycle()
 
 	elif (message_from_user[1]=="events" or message_from_user[1]=="事件" or message_from_user[1]=="战术警报" or message_from_user[1]=="活动"):
 		message_to_send=get_events()
@@ -155,9 +171,9 @@ def get_arbitration():
 		node=data.get("node")
 		pick_out=re.findall(r'[(](.*?)[)]',node)
 		if pick_out==[]:
-			node=info_trans(node)
+			node=info_trans(warframe_node,node)
 		else:
-			pick_out=info_trans(pick_out[0])
+			pick_out=info_trans(warframe_node,pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			node=re.sub(pattern,pick_out,node)
@@ -165,7 +181,7 @@ def get_arbitration():
 		enemy=data.get("enemy")
 		# 任务类型
 		mission_type=data.get("type")
-		mission_type=info_trans(mission_type)
+		mission_type=info_trans(warframe_missiontype,mission_type)
 
 		message_to_send="\n------仲裁信息------"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
 
@@ -286,11 +302,11 @@ def get_cetus_mission():
 			reward_length=len(job_reward)
 			rewards=""
 			for n in range(reward_length):
-				rewards=rewards+info_trans(job_reward[n])+"；"
+				rewards=rewards+info_trans(warframe_openplain,job_reward[n])+"；"
 			
 			# 赏金名
 			job_type=jobs[i].get("type")
-			job_type=info_trans(job_type)
+			job_type=info_trans(warframe_openplain,job_type)
 
 			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
 		
@@ -309,7 +325,7 @@ def get_darvo_daily_deal():
 	else:
 		data=data[0]
 		item=data.get("item")
-		item=info_trans(item)
+		item=info_trans(warframe_darvo,item)
 		expiry=data.get("expiry")
 		originalprice=data.get("originalPrice")
 		saleprice=data.get("salePrice")
@@ -363,11 +379,11 @@ def get_orb_mission():
 			reward_length=len(job_reward)
 			rewards=""
 			for n in range(reward_length):
-				rewards=rewards+info_trans(job_reward[n])+"；"
+				rewards=rewards+info_trans(warframe_openplain,job_reward[n])+"；"
 			
 			# 赏金名
 			job_type=jobs[i].get("type")
-			job_type=info_trans(job_type)
+			job_type=info_trans(warframe_openplain,job_type)
 
 			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
 		
@@ -398,7 +414,7 @@ def get_events():
 
 			# 事件描述
 			description=data[i].get("description")
-			description=info_trans(description)
+			description=info_trans(warframe_events,description)
 
 			maximumscore=data[i].get("maximumScore")
 			currentscore=data[i].get("currentScore")
@@ -407,9 +423,9 @@ def get_events():
 			node=data[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]', node)
 			if pick_out==[]:
-				node=info_trans(node)
+				node=info_trans(warframe_node,node)
 			else:
-				pick_out=info_trans(pick_out[0])
+				pick_out=info_trans(warframe_node,pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -425,7 +441,7 @@ def get_events():
 						rewards_message="无奖励"
 					else:
 						rewards_message=""
-						rewards_list=info_trans(rewards_list)
+						rewards_list=info_trans(warframe_events,rewards_list)
 						for m in range(len(rewards_list)):
 							rewards_message=rewards_message+rewards_list[m]+"；"
 					rewards=rewards+"\n阶段"+str(n+1)+"："+rewards_message
@@ -464,15 +480,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=info_trans(missiontype)
+				missiontype=info_trans(warframe_missiontype,missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -487,15 +503,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=info_trans(missiontype)
+				missiontype=info_trans(warframe_missiontype,missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 				
@@ -510,15 +526,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=info_trans(missiontype)
+				missiontype=info_trans(warframe_missiontype,missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -533,15 +549,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=info_trans(missiontype)
+				missiontype=info_trans(warframe_missiontype,missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -556,15 +572,15 @@ def get_fissures():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]', node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 任务类型
 				missiontype=data[i].get("missionType")
-				missiontype=info_trans(missiontype)
+				missiontype=info_trans(warframe_missiontype,missiontype)
 				# 敌人类型
 				enemy=data[i].get("enemy")
 
@@ -599,23 +615,23 @@ def get_invasions():
 				node=data[i].get("node")
 				pick_out=re.findall(r'[(](.*?)[)]',node)
 				if pick_out==[]:
-					node=info_trans(node)
+					node=info_trans(warframe_node,node)
 				else:
-					pick_out=info_trans(pick_out[0])
+					pick_out=info_trans(warframe_node,pick_out[0])
 					pick_out="("+pick_out+")"
 					pattern=re.compile(r'[(](.*?)[)]')
 					node=re.sub(pattern,pick_out,node)
 				# 入侵描述
 				desc=data[i].get("desc")
-				desc=info_trans(desc)
+				desc=info_trans(warframe_invasions,desc)
 				# 攻击方和奖励
 				attacker=data[i].get("attackingFaction")
 				attackreward=data[i].get("attackerReward").get("asString")
-				attackreward=info_trans(attackreward)
+				attackreward=info_trans(warframe_invasions,attackreward)
 				# 防守方和奖励
 				defender=data[i].get("defendingFaction")
 				defendreward=data[i].get("defenderReward").get("asString")
-				defendreward=info_trans(defendreward)
+				defendreward=info_trans(warframe_invasions,defendreward)
 
 				# 进度
 				process=data[i].get("completion")
@@ -669,9 +685,9 @@ def get_kuva():
 			node=data[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]',node)
 			if pick_out==[]:
-				node=info_trans(node)
+				node=info_trans(warframe_node,node)
 			else:
-				pick_out=info_trans(pick_out[0])
+				pick_out=info_trans(warframe_node,pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -722,9 +738,9 @@ def get_nightwave():
 		week=""
 		for i in range(all_challenges_length):
 			title=data[i].get("title")
-			title=info_trans(title)
+			title=info_trans(warframe_nightwave,title)
 			desc=data[i].get("desc")
-			desc=info_trans(desc)
+			desc=info_trans(warframe_nightwave,desc)
 			reputation=data[i].get("reputation")
 			# 获取每日任务
 			if data[i].get("isDaily"):
@@ -759,13 +775,13 @@ def get_sentient_outpost():
 		node=data.get("mission").get("node")
 		pick_out=re.findall(r'[(](.*?)[)]',node)
 		if pick_out==[]:
-			node=info_trans(node)
+			node=info_trans(warframe_node,node)
 		else:
-			pick_out=info_trans(pick_out[0])
+			pick_out=info_trans(warframe_node,pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			node=re.sub(pattern,"",node).rstrip()
-			node=info_trans(node)
+			node=info_trans(warframe_node,node)
 			node=node+" "+pick_out
 
 		expiry=data.get("expiry")
@@ -807,15 +823,15 @@ def get_sortie():
 		sortie_mission=""
 		for i in range(all_mission_length):
 			mission_type=mission_list[i].get("missionType")
-			mission_type=info_trans(mission_type)
+			mission_type=info_trans(warframe_missiontype,mission_type)
 			modifier=mission_list[i].get("modifier")
-			modifier=info_trans(modifier)
+			modifier=info_trans(warframe_sortie,modifier)
 			node=mission_list[i].get("node")
 			pick_out=re.findall(r'[(](.*?)[)]',node)
 			if pick_out==[]:
-				node=info_trans(node)
+				node=info_trans(warframe_node,node)
 			else:
-				pick_out=info_trans(pick_out[0])
+				pick_out=info_trans(warframe_node,pick_out[0])
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
@@ -848,9 +864,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -870,9 +886,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -891,9 +907,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -912,9 +928,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -933,9 +949,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -954,9 +970,9 @@ def get_syndicate_mission():
 					single_node=nodes[n]
 					pick_out=re.findall(r'[(](.*?)[)]',single_node)
 					if pick_out==[]:
-						single_node=info_trans(single_node)
+						single_node=info_trans(warframe_node,single_node)
 					else:
-						pick_out=info_trans(pick_out[0])
+						pick_out=info_trans(warframe_node,pick_out[0])
 						pick_out="("+pick_out+")"
 						pattern=re.compile(r'[(](.*?)[)]')
 						nodes[n]=re.sub(pattern,pick_out,single_node)
@@ -983,13 +999,13 @@ def get_void_trader():
 		location=data.get("location")
 		pick_out=re.findall(r'[(](.*?)[)]',location)
 		if pick_out==[]:
-			location=info_trans(location)
+			location=info_trans(warframe_node,location)
 		else:
-			pick_out=info_trans(pick_out[0])
+			pick_out=info_trans(warframe_node,pick_out[0])
 			pick_out="("+pick_out+")"
 			pattern=re.compile(r'[(](.*?)[)]')
 			location=re.sub(pattern,"",location).rstrip()
-			location=info_trans(location)
+			location=info_trans(warframe_node,location)
 			location=location+" "+pick_out
 		inventory=data.get("inventory")
 		active=data.get("active")
@@ -1000,7 +1016,7 @@ def get_void_trader():
 			inventory_list=""
 			for i in range(len(inventory)):
 				item=inventory[i].get("item")
-				item=info_trans(item)
+				item=info_trans(warframe_voidtrader,item)
 				credits=inventory[i].get("credits")
 				ducats=inventory[i].get("ducats")
 				inventory_list=inventory_list+"\n"+str(i+1)+"、"+item+"，奸商币："+str(ducats)+"，星币："+str(credits)
