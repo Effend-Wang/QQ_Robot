@@ -57,7 +57,6 @@ def send(self_id,data):
 			#print("开始创建消息")
 			message_to_send=message_create(message,authority)
 			#print(message_to_send)
-			#message_to_send="------WM：弹指瞬技（Fleeting Expertise）------\n在线卖家中最低价的10位：\n1. 卖家：MrZielu，售价：15，信誉点：1"
 		else:
 			return ""
 	else:

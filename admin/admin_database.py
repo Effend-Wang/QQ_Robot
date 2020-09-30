@@ -1,4 +1,5 @@
 # 该文档用于admin管理员对数据库的操作
+# 程序config相关数据库不可进行操作，以避免可能的程序问题
 
 import os
 from database_operate import access_operate

@@ -10,8 +10,9 @@ data_name="warframe_market"
 
 def get_market(message_from_user):
 	message_from_user=message_from_user.strip().split(" ",1)
-	url_name=market_trans(data_name,message_from_user[1].upper())
-	if (url_name==message_from_user[1].upper()):
+	msg_trans=message_from_user[1].replace(" ","")
+	url_name=market_trans(data_name,msg_trans)
+	if (url_name==msg_trans):
 		message_to_send="\n未能查到相关物品，请检查输入的物品格式！"
 	else:
 		orders_url=warframe_market_api+all_items+"/"+url_name+"/orders"
@@ -19,7 +20,7 @@ def get_market(message_from_user):
 		data=requests.get(orders_url).text
 		data=loads(data)
 		if data=={}:
-			message_to_send="\n无法查询到"+message_from_user[2]+"的交易信息！"
+			message_to_send="\n无法查询到"+message_from_user[1]+"的交易信息！"
 		else:
 			data=data.get("payload").get("orders")
 			online_list=[]
@@ -68,5 +69,3 @@ def get_market(message_from_user):
 			message_to_send="------WM："+message_from_user[1]+item_name+"------\n在线卖家中最低价的"+str(i+1)+"位："+sell_list
 			
 	return message_to_send
-
-
