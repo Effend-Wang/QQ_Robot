@@ -16,6 +16,7 @@ import requests
 import chat_authority
 from warframe.warframe_operate import warframe
 from admin.admin_operate import admin
+from tencent_cloud.tencent_operate import tencent
 
 # 消息发送模块主程序
 def send(self_id,data):
@@ -98,6 +99,9 @@ def message_create(message_from_user,authority):
 
 	if (authority.get("honkai3") and message_to_send==""):
 		pass
+
+	if (authority.get("nlp_chat") and message_to_send==""):
+		message_to_send=tencent(message_from_user)
 
 	if (authority.get("admin") and message_to_send==""):
 		if (message_check[0].upper()=="ADMIN"):

@@ -9,6 +9,7 @@ import message_operate
 import send_message
 from config_globalvar import config_db_loading
 from warframe.warframe_globalvar import warframe_db_loading
+from tencent_cloud.tencent_globalvar import tencent_db_loading
 
 # 创建一个服务对象
 bot_server=Flask(__name__)
@@ -21,6 +22,7 @@ with open(self_id_path) as file:
 # 加载数据库
 config_db_loading()
 warframe_db_loading()
+tencent_db_loading()
 
 # 指定服务对象的API地址及通信模式
 @bot_server.route('/api/message',methods=['POST'])

@@ -1,22 +1,16 @@
 # .ignore file is used to ignore file from git push.
-
 # Ignore program config database files
-data/config/
-
+data
 # Ignore test files
 test.py
 All\ Examples/Test\ Examples
-
 # Ignore python cache files
 __pycache__
-
 # Ignore Dependent program
 Runtime\ Environment
-
 # Ignore python pyinstaller files
 build
 dist
 *.spec
-
 # Ignore normal files
 *.zip
