@@ -1,7 +1,6 @@
 # .ignore file is used to ignore file from git push.
 # Ignore program config database files
-data/config
-data/tencentcloud
+data
 # Ignore test files
 test.py
 All\ Examples/Test\ Examples
