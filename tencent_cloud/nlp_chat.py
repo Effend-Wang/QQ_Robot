@@ -54,9 +54,11 @@ def get_nlpchat(message_from_user):
 	}
 
 	#time.sleep(1)
+	# 请求数据
 	response=requests.get(nlpchat_url,params=data,headers=headers).text
 	response=loads(response)
 
+	# 处理回传数据
 	if response.get("ret")==0:
 		message_to_send=response.get("data").get("answer")
 	else:

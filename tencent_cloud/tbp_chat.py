@@ -1,5 +1,5 @@
 # 该文档用于腾讯智能对话平台TBP应用接入和处理
-# TBP使用HTTPS协议通信，本代码中使用GET方法请求，使用签名方法v3（TC3-HMAC-SHA256）
+# TBP使用HTTPS协议通信，使用签名方法v3（TC3-HMAC-SHA256）
 # 实际使用的签名密钥通过数据库读取和存储，不于实际代码中显示以保证密钥安全性
 # 数据库字段格式：<botname>,<type>,<botid>,<secretid>,<secretkey>
 # botname为Bot名称，type为签名方法，botid为TBP的botid，secretid为签名，secretkey为签名密钥
