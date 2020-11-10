@@ -183,14 +183,14 @@ def get_arbitration():
 		mission_type=data.get("type")
 		mission_type=info_trans(warframe_missiontype,mission_type)
 
-		message_to_send="\n------仲裁信息------"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
+		message_to_send="\n【仲裁信息】"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
 
 	return message_to_send
 
 # 获取所有循环状态
 def get_all_cycle():
 	message_to_send=""
-	message_to_send="\n------循环信息------"+get_earth_cycle()+get_cetus_cycle()+get_orb_cycle()
+	message_to_send="\n【循环信息】"+get_earth_cycle()+get_cetus_cycle()+get_orb_cycle()
 
 	return message_to_send
 
@@ -308,9 +308,9 @@ def get_cetus_mission():
 			job_type=jobs[i].get("type")
 			job_type=info_trans(warframe_openplain,job_type)
 
-			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
+			message_to_send=message_to_send+"\n【赏金"+str(i+1)+"："+job_type+"】\n奖励："+rewards
 		
-		message_to_send="\n------希图斯赏金信息------\n赏金剩余时间："+rest_time+message_to_send
+		message_to_send="\n【希图斯赏金信息】\n赏金剩余时间："+rest_time+message_to_send
 
 	return message_to_send
 
@@ -335,7 +335,7 @@ def get_darvo_daily_deal():
 		rest_time=get_rest_time(expiry)
 		discount=data.get("discount")
 
-		message_to_send="\n------Darvo的每日特惠------"+"\n物品："+item+"\n原价："+str(originalprice)+"\n售价："+str(saleprice)+"\n折扣："+str(discount)+"%"+"\n剩余量："+str(rest_number)+"\n剩余时间："+rest_time
+		message_to_send="\n【Darvo的每日特惠】"+"\n物品："+item+"\n原价："+str(originalprice)+"\n售价："+str(saleprice)+"\n折扣："+str(discount)+"%"+"\n剩余量："+str(rest_number)+"\n剩余时间："+rest_time
 
 	return message_to_send
 
@@ -385,9 +385,9 @@ def get_orb_mission():
 			job_type=jobs[i].get("type")
 			job_type=info_trans(warframe_openplain,job_type)
 
-			message_to_send=message_to_send+"\n------赏金"+str(i+1)+"："+job_type+"------\n奖励："+rewards
+			message_to_send=message_to_send+"\n【赏金"+str(i+1)+"："+job_type+"】\n奖励："+rewards
 		
-		message_to_send="\n------福尔图娜赏金信息------\n赏金剩余时间："+rest_time+message_to_send
+		message_to_send="\n【福尔图娜赏金信息】\n赏金剩余时间："+rest_time+message_to_send
 
 	return message_to_send
 
@@ -447,7 +447,7 @@ def get_events():
 					rewards=rewards+"\n阶段"+str(n+1)+"："+rewards_message
 			event_message=event_message+"\n\n事件"+str(i+1)+"："+description+"\n剩余时间："+rest_time+"\n事件节点："+node+"\n奖励内容："+rewards
 
-		message_to_send="\n------事件活动------"+event_message
+		message_to_send="\n【事件活动】"+event_message
 
 	return message_to_send
 
@@ -463,11 +463,11 @@ def get_fissures():
 		message_to_send="\n未获取到虚空裂缝任务信息"
 	else:
 		all_fissures_length=len(data)
-		lith_message="\n\n------T1古纪裂缝------"
-		meso_message="\n\n------T2前纪裂缝------"
-		neo_message="\n\n------T3中纪裂缝------"
-		axi_message="\n\n------T4后纪裂缝------"
-		requiem_message="\n\n------T5安魂裂缝------"
+		lith_message="\n\n【T1古纪裂缝】"
+		meso_message="\n【T2前纪裂缝】"
+		neo_message="\n【T3中纪裂缝】"
+		axi_message="\n【T4后纪裂缝】"
+		requiem_message="\n【T5安魂裂缝】"
 
 		for i in range(all_fissures_length):
 
@@ -586,7 +586,7 @@ def get_fissures():
 
 				requiem_message=requiem_message+"\n\n节点："+node+"\n任务类型："+missiontype+"\n敌人类型："+enemy+"\n剩余时间："+rest_time
 
-		message_to_send="\n------虚空裂缝任务------"+lith_message+meso_message+neo_message+axi_message+requiem_message
+		message_to_send="\n【虚空裂缝任务】"+lith_message+meso_message+neo_message+axi_message+requiem_message
 
 	return message_to_send
 
@@ -645,9 +645,9 @@ def get_invasions():
 					attack_rest=requiredruns-count
 				defend_rest=requiredruns+count
 
-				mission_list=mission_list+"\n------"+node+"："+desc+"------\n攻击方："+attacker+"\n奖励："+attackreward+"\n攻方进度："+str(round(process,2))+"%\n剩余攻击次数："+str(attack_rest)+"\n\n防守方："+defender+"\n奖励："+defendreward+"\n守方进度："+str(round(100-process,2))+"%\n剩余防守次数："+str(defend_rest)
+				mission_list=mission_list+"\n【"+node+"："+desc+"】\n攻击方："+attacker+"\n奖励："+attackreward+"\n攻方进度："+str(round(process,2))+"%\n剩余攻击次数："+str(attack_rest)+"\n\n防守方："+defender+"\n奖励："+defendreward+"\n守方进度："+str(round(100-process,2))+"%\n剩余防守次数："+str(defend_rest)
 
-		message_to_send="\n------入侵任务------"+mission_list
+		message_to_send="\n【入侵任务】"+mission_list
 
 	return message_to_send
 
@@ -663,7 +663,7 @@ def get_construction_progress():
 	else:
 		fomorian=data.get("fomorianProgress")
 		razorback=data.get("razorbackProgress")
-		message_to_send="\n------入侵建造情况------\n巨人战舰："+fomorian+"%\n利刃豺狼："+razorback+"%"
+		message_to_send="\n【入侵建造情况】\n巨人战舰："+fomorian+"%\n利刃豺狼："+razorback+"%"
 
 	return message_to_send
 
@@ -693,9 +693,9 @@ def get_kuva():
 				node=re.sub(pattern,pick_out,node)
 			enemy=data[i].get("enemy")
 			mission_type=data[i].get("type")
-			mission_list=mission_list+"\n\n-----"+node+"\n------\n任务类型："+mission_type+"\n敌人："+enemy+"\n剩余时间："+rest_time
+			mission_list=mission_list+"\n\n【"+node+"】\n任务类型："+mission_type+"\n敌人："+enemy+"\n剩余时间："+rest_time
 
-		message_to_send="\n------赤毒虹吸器任务------"+mission_list
+		message_to_send="\n【赤毒虹吸器任务】"+mission_list
 
 	return message_to_send
 
@@ -718,7 +718,7 @@ def get_news():
 				message=data[i].get("translations").get("en")
 			news_list=news_list+"\n\n新闻"+str(i+1)+"："+message+"\n新闻链接："+link
 
-		message_to_send="\n------新闻列表------"+news_list
+		message_to_send="\n【新闻列表】"+news_list
 
 	return message_to_send
 
@@ -748,7 +748,7 @@ def get_nightwave():
 			else:
 				week=week+"\n任务："+title+"，要求："+desc+"，声望："+str(reputation)
 
-		message_to_send="\n------午夜电波任务------\n------每日任务------"+daily+"\n------每周任务------"+week
+		message_to_send="\n【午夜电波任务】\n【每日任务】"+daily+"\n【每周任务】"+week
 
 	return message_to_send
 
@@ -786,7 +786,7 @@ def get_sentient_outpost():
 
 		expiry=data.get("expiry")
 		rest_time=get_rest_time(expiry)
-		message_to_send="\n------S船出没信息------\n出没节点："+node+"\n剩余时间："+rest_time
+		message_to_send="\n【S船出没信息】\n出没节点："+node+"\n剩余时间："+rest_time
 
 	return message_to_send
 
@@ -801,7 +801,7 @@ def get_sanctuary():
 		message_to_send="\n未获取到Simaris任务信息"
 	else:
 		target=data.get("target")
-		message_to_send="\n------Simaris任务------\n任务目标："+target
+		message_to_send="\n【Simaris任务】\n任务目标："+target
 
 	message_to_send=""	# 该查询内容毫无意义
 
@@ -835,9 +835,9 @@ def get_sortie():
 				pick_out="("+pick_out+")"
 				pattern=re.compile(r'[(](.*?)[)]')
 				node=re.sub(pattern,pick_out,node)
-			sortie_mission=sortie_mission+"\n------突击"+str(i+1)+"："+node+"------\n任务："+mission_type+"\n状态："+modifier
+			sortie_mission=sortie_mission+"\n【突击"+str(i+1)+"："+node+"】\n任务："+mission_type+"\n状态："+modifier
 
-		message_to_send="\n------突击任务：击败"+boss+"的部队------"+sortie_mission
+		message_to_send="\n【突击任务：击败"+boss+"的部队】"+sortie_mission
 
 	return message_to_send
 
@@ -981,7 +981,7 @@ def get_syndicate_mission():
 			else:
 				new_loka="\n目前没有新世间任务"
 
-	message_to_send="\n------集团任务信息------"+steel_meridian+arbiters_of_hexis+cephalon_suda+perrin_sequence+red_veil+new_loka
+	message_to_send="\n【集团任务信息】"+steel_meridian+arbiters_of_hexis+cephalon_suda+perrin_sequence+red_veil+new_loka
 
 	return message_to_send
 
@@ -1019,14 +1019,14 @@ def get_void_trader():
 				item=info_trans(warframe_voidtrader,item)
 				credits=inventory[i].get("credits")
 				ducats=inventory[i].get("ducats")
-				inventory_list=inventory_list+"\n"+str(i+1)+"、"+item+"，奸商币："+str(ducats)+"，星币："+str(credits)
-			trader_message="\n出没节点："+location+"\n离开剩余时间："+rest_time+"\n------携带物品------"+inventory_list
+				inventory_list=inventory_list+"\n【"+item+"】 奸商币："+str(ducats)+"，星币："+str(credits)
+			trader_message="\n出没节点："+location+"\n离开剩余时间："+rest_time+"\n【携带物品】"+inventory_list
 		else:
 			activation=data.get("activation")
 			rest_time=get_rest_time(activation)
 			trader_message="\n虚空商人还未到来！\n下次出没节点："+location+"\n到来剩余时间："+rest_time
 
-		message_to_send="\n------虚空商人------"+trader_message
+		message_to_send="\n【虚空商人】"+trader_message
 
 	return message_to_send
 

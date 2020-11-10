@@ -43,7 +43,7 @@ def game_trans(message_from_user):
 	if result==None:
 		message_to_send="\n未能找到翻译内容"
 	else:
-		message_to_send="\n------翻译："+message_from_user[2]+"------\n"+result
+		message_to_send="\n【翻译："+message_from_user[2]+"】\n"+result
 
 	return message_to_send
 

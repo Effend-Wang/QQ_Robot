@@ -19,7 +19,7 @@ import tencent_cloud.tencent_globalvar as tencent_globalvar
 tbp_url="tbp.tencentcloudapi.com"
 
 # 发送TBP请求获得数据并处理
-def get_botchat_result(message_from_user):
+def get_tbpchat(message_from_user):
 
 	message_from_user=message_from_user.split(" ",1)
 

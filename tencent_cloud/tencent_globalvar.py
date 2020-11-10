@@ -1,4 +1,4 @@
-# 该代码用于加载warframe相关数据并存储为全局变量
+# 该代码用于加载tencentcloud相关数据并存储为全局变量
 
 import os
 import database_operate
@@ -23,7 +23,7 @@ def var_write(file_path):
 	output_dict={}
 	data=database_operate.access_operate("all",None,file_path)
 	if data==[]:
-		print("TENCENT CLOUD文件数据读取出现错误！")
+		print("文件%s数据读取出现错误！" %file_path)
 
 	return data
 

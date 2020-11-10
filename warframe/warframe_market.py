@@ -44,7 +44,8 @@ def get_market(message_from_user):
 					ingame_name=online_list[i].get("user").get("ingame_name")
 					platinum=int(online_list[i].get("platinum"))
 					reputation=online_list[i].get("user").get("reputation")
-					sell_list=sell_list+"\n"+str(i+1)+"、卖家："+ingame_name+"，售价："+str(platinum)+"，信誉点："+str(reputation)
+					sell_list=sell_list+"\n"+str(i+1)+"、玩家："+ingame_name+"，价格"+str(platinum)+"，信誉度："+str(reputation)
+					#sell_list=sell_list+"\n【"+ingame_name+"】："+str(platinum)
 				else:
 					break
 
@@ -60,12 +61,13 @@ def get_market(message_from_user):
 				items_length=len(data)
 				for n in range(items_length):
 					if (data[n].get("url_name")==url_name):
-						item_name="（"+data[n].get("en").get("item_name")+"）"
+						item_name=data[n].get("en").get("item_name")
 						break
 			if i>=5:
 				i=4
 
+			trade_chat="\n私聊格式：/w 买家 Hi! I want to buy: ["+item_name+"] for 价格 platinum. (warframe.market)"
 			#message_to_send="\n------WM："+message_from_user[1]+item_name+"------\n游戏在线卖家中最低价的"+str(i+1)+"位："+sell_list+"\nWM链接："+orders_web
-			message_to_send="------WM："+message_from_user[1]+item_name+"------\n在线卖家中最低价的"+str(i+1)+"位："+sell_list
-			
+			message_to_send="\nWM查询【"+item_name+"】\n查到"+str(online_length)+"个交易者，最低价"+str(i+1)+"位在线卖家："+sell_list+trade_chat
+
 	return message_to_send
