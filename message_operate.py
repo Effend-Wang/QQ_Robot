@@ -1,14 +1,16 @@
 # 消息内容处理接口，分割获得的聊天数据
 # 数据分割后包括：
-# 	聊天类型（私密/群消息）：<data: message_type> <result: "private" & "group">
-#	聊天@情况（仅当群消息时获得）：<data: cq_status> <result: True & False> <default: "False">
-#	聊天@对象（仅当cq_status==True时获得）：<data: cq_id> <default: []>
-#	聊天消息来源群ID（仅当群消息时获得）：<data: group_id> <default:"">
-#	聊天消息来源用户ID：<data: user_id>
-#	聊天消息来源昵称：<data: nickname>
-#	消息内容：<data: message> <defalut:"">
-#	消息图像URL（当存在消息type=="image"时）：<data: image_url> <default: []>
-#	消息处理状态：<data: message_status> <result: True & False> <default: True>
+#	接收消息的ID：<data: self_id> <default: "">
+# 	聊天类型（私密/群消息）：<data: message_type> <result: "private" & "group"> <default: "">
+#	聊天@情况（仅当群消息时获得）：<data: at_status> <result: True & False> <default: "False">
+#	聊天@对象（仅当at_status==True时获得）：<data: at_id> <default: []>
+#	聊天消息来源群ID（仅当群消息时获得）：<data: req_group> <default: "">
+#	聊天消息来源用户ID：<data: req_id> <default: "">
+#	聊天消息来源昵称：<data: nickname> <default: "">
+#	消息内容：<data: text> <defalut: []>
+#	消息图像hash值：<data: pic_hash> <default: []>
+#	消息图像guid值：<data: pic_guid> <default: []>
+#	语音消息数据：<data: audio> <default: "">
 
 # 私密消息数据的几种情况：
 #	1、私密消息
@@ -23,63 +25,52 @@
 #	5、@成员+图像信息
 #	6、@成员+无任何消息
 
+import re
+
 # 处理消息全局接口
 def get_message(data):
 
 	# 初始化数据默认值
-	message_type=""
-	at_status=False
-	at_id=[]
-	group_id=""
-	user_id=""
-	nickname=""
-	message=""
-	image_url=[]
-	message_status=False
+	message={
+		"self_id":"",
+		"message_type":"",
+		"at_status":False,
+		"at_id":[],
+		"req_group":"",
+		"req_id":"",
+		"nickname":"",
+		"text":"",
+		"pic_hash":"",
+		"pic_guid":"",
+		"audio":""
+	}
 	
 	# 获得全局聊天类型（私密/群消息）
 	message_type=data.get("Type")
 
 	# 处理私密消息
 	if (message_type=="PrivateMsg"):
-		message_type="private"
-		(user_id,nickname,message,image_url,message_status)=private_message(data)
+		message=private_message(data,message)
 
 	# 处理群消息
 	elif (message_type=="GroupMsg"):
-		message_type="group"
-		(at_status,at_id,group_id,user_id,nickname,message,image_url,message_status)=group_message(data)
-
-	# 输出消息
-	#print("收到一条%s消息：" %message_type)
-	#print("@类型：%s\t@对象：%s" %(at_status,at_id))
-	#print("来自QQ：%s\t昵称：%s" %(user_id,nickname))
-	#print("消息类型：%s" %message_type)
-	#print("消息内容：%s" %message)
-	#print("消息图像URL：%s" %image_url)
-	#print("消息处理状态：%s\n" %message_status)
-
-	# 整合数据
-	message={
-		"message_type":message_type,
-		"at_status":at_status,
-		"at_id":at_id,
-		"group_id":group_id,
-		"user_id":user_id,
-		"nickname":nickname,
-		"message":message,
-		"image_url":image_url,
-		"message_status":message_status
-	}
+		message=group_message(data,message)
 
 	return message
 
 # 私密消息处理
-def private_message(data):
-	image_url=""
-	user_id=data.get("FromQQ").get("UIN")
-	nickname=data.get("FromQQ").get("NickName")
-	message=data.get("Msg").get("Text")
+def private_message(data,message):
+	message["self_id"]=data.get("LogonQQ")
+	message["message_type"]="private"
+	message["req_id"]=data.get("FromQQ").get("UIN")
+	message["nickname"]=data.get("FromQQ").get("NickName")
+	text=data.get("Msg").get("Text")
+	if(re.findall(r'(.*)\[pic',text)==[]):
+		message["text"]=text
+	else:
+		message["text"]="".join(re.findall(r'(.*)\[pic',text))
+		message["pic_hash"]="".join(re.findall(r'hash=(.*),',text))
+		message["pic_guid"]="".join(re.findall(r'guid=(.*)\]',text))
 
 	# Warning: For CoolQ, no longer useful
 	#message=""
@@ -91,22 +82,22 @@ def private_message(data):
 		#elif(data.get("message")[i].get("type")=="image"):
 			#image_url.append(data.get("message")[i].get("data").get("url"))
 
-	if message!="":
-		message_status=True
-	else:
-		message_status=False
-	
-	return user_id,nickname,message,image_url,message_status
+	return message
 
 # 群消息处理
-def group_message(data):
-	at_status=False
-	at_id=[]
-	image_url=""
-	group_id=data.get("FromGroup").get("GIN")
-	user_id=data.get("FromQQ").get("UIN")
-	nickname=data.get("FromQQ").get("Card")
-	message=data.get("Msg").get("Text")
+def group_message(data,message):
+	message["self_id"]=data.get("LogonQQ")
+	message["message_type"]="group"
+	message["req_group"]=data.get("FromGroup").get("GIN")
+	message["req_id"]=data.get("FromQQ").get("UIN")
+	message["nickname"]=data.get("FromQQ").get("NickName")
+	text=data.get("Msg").get("Text")
+	if(re.findall(r'(.*)\[pic',text)==[]):
+		message["text"]=text
+	else:
+		message["text"]="".join(re.findall(r'(.*)\[pic',text))
+		message["pic_hash"]="".join(re.findall(r'hash=(.*),',text))
+		message["pic_guid"]="".join(re.findall(r'guid=(.*)\]',text))
 
 	# Warning: For CoolQ, no longer useful
 	#message=""
@@ -120,11 +111,6 @@ def group_message(data):
 		#elif(data.get("message")[i].get("type")=="at"):
 			#cq_status=True
 			#cq_id.append(data.get("message")[i].get("data").get("qq"))
-
-	if message!="":
-		message_status=True
-	else:
-		message_status=False
 	
-	return at_status,at_id,group_id,user_id,nickname,message,image_url,message_status
+	return message
 	

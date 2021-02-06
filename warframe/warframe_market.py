@@ -13,14 +13,14 @@ def get_market(message_from_user):
 	msg_trans=message_from_user[1].replace(" ","")
 	url_name=market_trans(data_name,msg_trans)
 	if (url_name==msg_trans):
-		message_to_send="\n未能查到相关物品，请检查输入的物品格式！"
+		message_to_send="未能查到相关物品，请检查输入的物品格式！"
 	else:
 		orders_url=warframe_market_api+all_items+"/"+url_name+"/orders"
 		orders_web=warframe_market_web+all_items+"/"+url_name
 		data=requests.get(orders_url).text
 		data=loads(data)
 		if data=={}:
-			message_to_send="\n无法查询到"+message_from_user[1]+"的交易信息！"
+			message_to_send="无法查询到"+message_from_user[1]+"的交易信息！"
 		else:
 			data=data.get("payload").get("orders")
 			online_list=[]
@@ -68,6 +68,6 @@ def get_market(message_from_user):
 
 			trade_chat="\n私聊格式：/w 买家 Hi! I want to buy: ["+item_name+"] for 价格 platinum. (warframe.market)"
 			#message_to_send="\n------WM："+message_from_user[1]+item_name+"------\n游戏在线卖家中最低价的"+str(i+1)+"位："+sell_list+"\nWM链接："+orders_web
-			message_to_send="\nWM查询【"+item_name+"】\n查到"+str(online_length)+"个交易者，最低价"+str(i+1)+"位在线卖家："+sell_list+trade_chat
+			message_to_send="WM查询【"+item_name+"】\n查到"+str(online_length)+"个交易者，最低价"+str(i+1)+"位在线卖家："+sell_list+trade_chat
 
 	return message_to_send

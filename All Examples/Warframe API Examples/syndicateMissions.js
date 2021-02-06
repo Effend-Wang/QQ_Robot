@@ -88,6 +88,66 @@
     'eta': '1m 57s'
   }, 
   {
+    "id":"1605005015185EntratiSyndicate",
+    "activation":"2020-11-10T08:13:36.311Z",
+    "startString":"-34m 44s",
+    "expiry":"2020-11-10T10:43:35.185Z",
+    "active":true,
+    "syndicate":"EntratiSyndicate",
+    "nodes":[],
+    "jobs":[
+      {
+        "id":"DeimosKeyPiecesBounty1605005015185",
+        "rewardPool":["3X 1,500 Credits Cache","150 Endo","15X Lucent Teroglobe","2X 3,000 Credits Cache","250 Endo","Lith G1 Relic","Scintillant"],
+        "type":"Salvage",
+        "enemyLevels":[5,15],
+        "standingStages":[5,5,5],
+        "minMR":0
+      },
+      {
+        "id":"DeimosAreaDefenseBounty1605005015185",
+        "rewardPool":["Ayatan Amber Star","250 Endo","Lith G1 Relic","Carnis Mandible","Jugulus Barbs","Saxum Thorax","500 Endo","Neo S5 Relic","Carnis Carapace","Jugulus Carapace","Saxum Carapace","750 Endo","Axi E1 Relic","Carnis Stinger","Jugulus Spines","Saxum Spittle"],
+        "type":"Reclaim What's Ours",
+        "enemyLevels":[15,25],
+        "standingStages":[10,10,10],
+        "minMR":1
+      },
+      {
+        "id":"DeimosEndlessPurifyBounty1605005015185",
+        "rewardPool":["600 Endo","Zenurik Lens","Madurai Lens","Catalyzer Link","Scintillant","Meso F2 Relic","Xaku Neuroptics BP","Weeping Wounds","Embedded Catalyzer","Nano-Applicator"],
+        "type":"Anomaly Retrieval (Endless)",
+        "enemyLevels":[25,30],
+        "standingStages":[14,14,14],
+        "minMR":5
+      },
+      {
+        "id":"DeimosAssassinateBounty1605005015185",
+        "rewardPool":["750 Endo","Unairu Lens","Madurai Lens","Focused Defense","5X Vome Residue","Neo S5 Relic","Xaku Systems BP","Targeting Subsystem","Guided Ordnance","Narrow Barrel"],
+        "type":"Cleanse the Land",
+        "enemyLevels":[30,40],
+        "standingStages":[18,18,18,26],
+        "minMR":2
+      },
+      {
+        "id":"DeimosPurifyBounty1605005015185",
+        "rewardPool":["Ayatan Amber Star","1000 Endo","750X Kuva","Axi E1 Relic","Xaku Chassis BP","Quassus BP"],
+        "type":"Anomaly Retrieval",
+        "enemyLevels":[40,60],
+        "standingStages":[20,20,20,20,39],
+        "minMR":3
+      },
+      {
+        "id":"DeimosExcavateBounty1605005015185",
+        "rewardPool":["Ayatan Amber Star","1000 Endo","750X Kuva","Axi E1 Relic","Xaku Chassis BP","Quassus BP"],
+        "type":"Core Samples",
+        "enemyLevels":[100,100],
+        "standingStages":[25,25,25,25,50],
+        "minMR":10
+      }
+    ],
+    "eta":"1h 55m 14s"
+  },
+  {
     'id': '1595646185389SolarisSyndicate', 
     'activation': '2020-07-25T00:33:06.515Z', 
     'startString': '-2h 28m 1s', 

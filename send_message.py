@@ -1,9 +1,10 @@
 # 该文档代码完成发送消息的操作
 
-#data={
+# 发送的消息内容
+#message={
 #	"message_type":message_type,
-#	"cq_status":cq_status,
-#	"cq_id":cq_id,
+#	"cq_status":at_status,
+#	"cq_id":at_id,
 #	"group_id":group_id,
 #	"user_id":user_id,
 #	"nickname":nickname,
@@ -12,99 +13,112 @@
 #	"message_status":message_status
 #}
 
+from json import loads
+import os
+
 import requests
-import chat_authority
-from warframe.warframe_operate import warframe
-from admin.admin_operate import admin
-from tencent_cloud.tencent_operate import tencent
+import response
+
+api_ip="http://127.0.0.1:10429/"
+msg_prv_api="sendprivatemsg"
+pic_prv_api="sendprivatepic"
+aud_prv_api="sendprivateaudio"
+msg_gro_api="sendgroupmsg"
+pic_gro_api="sendgrouppic"
+aud_gro_api="sendgroupaudio"
 
 # 消息发送模块主程序
-def send(self_id,data):
+def send(res_msg):
 
-	# 模块初始化
-	api_ip="http://127.0.0.1:10429/"
-	private_api="sendprivatemsg"
-	group_api="sendgroupmsg"
-
-	# 消息初始化
-	message_type=data.get("message_type")
-	at_status=data.get("at_status")
-	at_id=data.get("at_id")
-	group_id=data.get("group_id")
-	user_id=data.get("user_id")
-	message=data.get("message")
-	image_url=data.get("image_url")
-
-	# 建立需要发送的数据包（仅当接收到私密消息或者@自己的群消息时）
-	if (message_type=="private"):
-		# 检查聊天权限
-		authority=chat_authority.get_authority(group_id,user_id)
-		if (authority==False):
-			return ""
-		message_to_send=message_create(message,authority)
-		#print(message_to_send)
-	#elif (message_type=="group" and at_status):
-	elif (message_type=="group"):
-		#group_send_status=False
-		#for i in range(len(at_id)):
-			#if (at_id[i]==self_id):
-				#group_send_status=True
-		group_send_status=True
-		if group_send_status:
-			# 检查聊天权限
-			authority=chat_authority.get_authority(group_id,user_id)
-			if (authority==False):
-				return ""
-			#print("开始创建消息")
-			message_to_send=message_create(message,authority)
-			#print(message_to_send)
-		else:
-			return ""
-	else:
-		return ""
-
-	if (message_to_send=="" or message_to_send==[]):
+	if (res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
 		return ""
 
 	# 发送消息
-	if (message_type=="private"):
-		api_url=api_ip+private_api
-		data={
-			"fromqq":self_id,
-			"toqq":user_id,
-			"text":message_to_send
-		}
+	if (res_msg["message_type"]=="private"):
+		if (res_msg["have_text"]==True):
+			data={
+				"fromqq":res_msg["fromqq"],
+				"toqq":res_msg["toqq"],
+				"text":res_msg["text"]
+			}
+			api_url=api_ip+msg_prv_api
+		if (res_msg["have_pic"]==True):
+			path=os.getcwd()+"/testimg.jpg"
+			data={
+				"fromqq":res_msg["fromqq"],
+				"toqq":res_msg["toqq"],
+				"fromtype":res_msg["pic_type"],
+			}
+			if (data["fromtype"]==0):
+				data["pic"]=res_msg["pic_line"]
+			elif (data["fromtype"]==1):
+				data["path"]=res_msg["pic_path"]
+			elif (data["fromtype"]==2):
+				data["url"]=res_msg["pic_url"]
+			api_url=api_ip+pic_prv_api
+			r=loads(requests.post(api_url,data=data).text)
+			data={
+				"fromqq":res_msg["fromqq"],
+				"toqq":res_msg["toqq"],
+				"text":r.get("ret"),
+			}
+			api_url=api_ip+msg_prv_api
+
+		if (res_msg["have_audio"]==True):
+			data={
+				"fromqq":res_msg["fromqq"],
+				"toqq":res_msg["toqq"],
+				"fromtype":res_msg["audio_type"],
+			}
+			if (data["fromtype"]==0):
+				data["audio"]=res_msg["audio_line"]
+			elif (data["fromtype"]==1):
+				data["path"]=res_msg["audio_path"]
+			elif (data["fromtype"]==2):
+				data["url"]=res_msg["audio_url"]
+			api_url=api_ip+aud_prv_api
 		r=requests.post(api_url,data=data)
-	elif (message_type=="group"):
-		api_url=api_ip+group_api
-		data={
-			"fromqq":self_id,
-			"togroup":group_id,
-			#"text":"[@"+str(user_id)+"] "+message_to_send
-			"text":message_to_send
-		}
+
+	elif (res_msg["message_type"]=="group"):
+		if (res_msg["have_text"]==True):
+			data={
+				"fromqq":res_msg["fromqq"],
+				"togroup":res_msg["togroup"],
+				"text":res_msg["text"]
+			}
+			api_url=api_ip+msg_gro_api
+		if (res_msg["have_pic"]==True):
+			data={
+				"fromqq":res_msg["fromqq"],
+				"togroup":res_msg["togroup"],
+				"fromtype":res_msg["pic_type"]
+			}
+			if (data["fromtype"]==0):
+				data["pic"]=res_msg["pic_line"]
+			elif (data["fromtype"]==1):
+				data["path"]=res_msg["pic_path"]
+			elif (data["fromtype"]==2):
+				data["url"]=res_msg["pic_url"]
+			api_url=api_ip+pic_gro_api
+			r=loads(requests.post(api_url,data=data).text)
+			data={
+				"fromqq":res_msg["fromqq"],
+				"togroup":res_msg["togroup"],
+				"text":r.get("ret"),
+			}
+			api_url=api_ip+msg_gro_api
+		if (res_msg["have_audio"]==True):
+			data={
+				"fromqq":res_msg["fromqq"],
+				"togroup":res_msg["togroup"],
+				"fromtype":res_msg["audio_type"]
+			}
+			if (data["fromtype"]==0):
+				data["audio"]=res_msg["audio_line"]
+			elif (data["fromtype"]==1):
+				data["path"]=res_msg["audio_path"]
+			elif (data["fromtype"]==2):
+				data["url"]=res_msg["audio_url"]
+			api_url=api_ip+aud_gro_api
 		r=requests.post(api_url,data=data)
-	#print(r.text)
-
-# 创建需要发送的消息
-def message_create(message_from_user,authority):
-
-	message_to_send=""
-	message_check=message_from_user.split()
-	if (len(message_check)<=1):
-		return ""
-
-	if (authority.get("warframe") and message_to_send==""):
-		message_to_send=warframe(message_from_user)
-
-	if (authority.get("honkai3") and message_to_send==""):
-		pass
-
-	if (authority.get("nlp_chat") and message_to_send==""):
-		message_to_send=tencent(message_from_user)
-
-	if (authority.get("admin") and message_to_send==""):
-		if (message_check[0].upper()=="ADMIN"):
-			message_to_send=admin(message_from_user)
-
-	return message_to_send
+		

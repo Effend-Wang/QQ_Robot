@@ -26,10 +26,9 @@ def admin(message_from_user):
 
 	elif (message_check[1].upper()=="DBRELOAD" or message_check[1]=="重载数据库"):
 		warframe_db_loading()
-		message_to_send=message_to_send+"\n数据库已重载"
+		message_to_send="数据库已重载"
 
 	else:
 		message_to_send=""
 
 	return message_to_send
-

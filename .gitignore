@@ -1,5 +1,5 @@
 # .ignore file is used to ignore file from git push.
-# Ignore program config database files
+# Ignore program config files
 data
 # Ignore test files
 test.py
@@ -14,3 +14,5 @@ dist
 *.spec
 # Ignore normal files
 *.zip
+# Ignore buffer files
+buffer

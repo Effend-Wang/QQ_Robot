@@ -39,6 +39,7 @@ sanctuary="simaris"	# Simaris圣殿状态信息
 sortie="sortie"	# 突击信息
 syndicate_mission="syndicateMissions"	# 每日集团任务信息
 orb_vallis="vallisCycle"	# 奥布山谷冷/暖循环信息
+cambion="cambionCycle"	# 英择谛FASS/VOME循环信息
 void_trader="voidTrader"	# 虚空商人信息
 arcane_enhancement="arcanes/search/"	# 赋能查询（需在链接后添加"{<arcanes_name>}"）
 
@@ -69,67 +70,70 @@ def get_info(message_from_user):
 		print("注意：Warframe info API无法连接！")
 		return ""
 
-	if (message_from_user[1]=="alerts" or message_from_user[1]=="警报"):
+	if (message_from_user[1].lower()=="alerts" or message_from_user[1]=="警报"):
 		message_to_send=get_alerts()
 
-	elif (message_from_user[1]=="arbitration" or message_from_user[1]=="仲裁"):
+	elif (message_from_user[1].lower()=="arbitration" or message_from_user[1]=="仲裁"):
 		message_to_send=get_arbitration()
 
-	elif (message_from_user[1]=="cetus" or message_from_user[1]=="夜灵平野" or message_from_user[1]=="希图斯" or message_from_user[1]=="地球平原"):
+	elif (message_from_user[1].lower()=="cetus" or message_from_user[1]=="夜灵平野" or message_from_user[1]=="希图斯" or message_from_user[1]=="地球平原"):
 		message_to_send=get_all_cycle()+"\n"+get_cetus_mission()
 
-	elif (message_from_user[1]=="construction" or message_from_user[1]=="巨人战舰" or message_from_user[1]=="豺狼"):
+	elif (message_from_user[1].lower()=="construction" or message_from_user[1]=="巨人战舰" or message_from_user[1]=="豺狼"):
 		message_to_send=get_construction_progress()
 
-	elif (message_from_user[1]=="darvo" or message_from_user[1]=="每日特惠"):
+	elif (message_from_user[1].lower()=="darvo" or message_from_user[1]=="每日特惠"):
 		message_to_send=get_darvo_daily_deal()
 
-	elif (message_from_user[1]=="orb" or message_from_user[1]=="奥布山谷" or message_from_user[1]=="福尔图娜" or message_from_user[1]=="金星平原"):
+	elif (message_from_user[1].lower()=="orb" or message_from_user[1]=="奥布山谷" or message_from_user[1]=="福尔图娜" or message_from_user[1]=="金星平原"):
 		message_to_send=get_all_cycle()+"\n"+get_orb_mission()
 
 	elif (message_from_user[1]=="循环"):
 		message_to_send=get_all_cycle()
 
-	elif (message_from_user[1]=="events" or message_from_user[1]=="事件" or message_from_user[1]=="战术警报" or message_from_user[1]=="活动"):
+	elif (message_from_user[1].lower()=="entrati" or message_from_user[1].lower()=="i系平原" or message_from_user[1]=="英择谛"):
+		message_to_send=get_all_cycle()+"\n"+get_entrati_mission()
+
+	elif (message_from_user[1].lower()=="events" or message_from_user[1]=="事件" or message_from_user[1]=="战术警报" or message_from_user[1]=="活动"):
 		message_to_send=get_events()
 
-	elif (message_from_user[1]=="fissures" or message_from_user[1]=="遗物" or message_from_user[1]=="裂缝" or message_from_user[1]=="核桃" or message_from_user[1]=="虚空"):
+	elif (message_from_user[1].lower()=="fissures" or message_from_user[1]=="遗物" or message_from_user[1]=="裂缝" or message_from_user[1]=="核桃" or message_from_user[1]=="虚空"):
 		message_to_send=get_fissures()
 
-	elif (message_from_user[1]=="globalupgrades" or message_from_user[1]=="全服加成"):
+	elif (message_from_user[1].lower()=="globalupgrades" or message_from_user[1]=="全服加成"):
 		message_to_send=get_global_upgrades()
 
-	elif (message_from_user[1]=="invasions" or message_from_user[1]=="入侵"):
+	elif (message_from_user[1].lower()=="invasions" or message_from_user[1]=="入侵"):
 		message_to_send=get_invasions()+"\n"+get_construction_progress()
 
-	elif (message_from_user[1]=="kuva" or message_from_user[1]=="赤毒"):
+	elif (message_from_user[1].lower()=="kuva" or message_from_user[1]=="赤毒"):
 		message_to_send=get_kuva()
 
-	elif (message_from_user[1]=="news" or message_from_user[1]=="新闻"):
+	elif (message_from_user[1].lower()=="news" or message_from_user[1]=="新闻"):
 		message_to_send=get_news()
 
-	elif (message_from_user[1]=="nightwave" or message_from_user[1]=="午夜电波" or  message_from_user[1]=="电波"):
+	elif (message_from_user[1].lower()=="nightwave" or message_from_user[1]=="午夜电波" or  message_from_user[1]=="电波"):
 		message_to_send=get_nightwave()
 
-	elif (message_from_user[1]=="persistent" or message_from_user=="追随者"):
+	elif (message_from_user[1].lower()=="persistent" or message_from_user=="追随者"):
 		message_to_send=get_persistent_enemy()
 
-	elif (message_from_user[1]=="riven" or message_from_user[1]=="紫卡"):
+	elif (message_from_user[1].lower()=="riven" or message_from_user[1]=="紫卡"):
 		message_to_send=get_riven_statistic()
 
-	elif (message_from_user[1]=="sentient" or message_from_user[1]=="S船" or message_from_user[1]=="s船"):
+	elif (message_from_user[1].lower()=="sentient" or message_from_user[1].upper()=="S船"):
 		message_to_send=get_sentient_outpost()
 
-	elif (message_from_user[1]=="sanctuary" or message_from_user[1]=="simaris" or message_from_user[1]=="圣殿"):
+	elif (message_from_user[1].lower()=="sanctuary" or message_from_user[1]=="simaris" or message_from_user[1]=="圣殿"):
 		message_to_send=get_sanctuary()
 
-	elif (message_from_user[1]=="sortie" or message_from_user[1]=="突击"):
+	elif (message_from_user[1].lower()=="sortie" or message_from_user[1]=="突击"):
 		message_to_send=get_sortie()
 
-	elif (message_from_user[1]=="syndicate" or message_from_user[1]=="集团"):
+	elif (message_from_user[1].lower()=="syndicate" or message_from_user[1]=="集团"):
 		message_to_send=get_syndicate_mission()
 
-	elif (message_from_user[1]=="voidtrader" or message_from_user[1]=="奸商" or message_from_user[1]=="虚空商人"):
+	elif (message_from_user[1].lower()=="voidtrader" or message_from_user[1]=="奸商" or message_from_user[1]=="虚空商人"):
 		message_to_send=get_void_trader()
 
 	return message_to_send
@@ -183,14 +187,14 @@ def get_arbitration():
 		mission_type=data.get("type")
 		mission_type=info_trans(warframe_missiontype,mission_type)
 
-		message_to_send="\n【仲裁信息】"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
+		message_to_send="【仲裁信息】"+"\n敌人："+enemy+"\n节点："+node+"\n任务类型："+mission_type+"\n剩余时间："+rest_time
 
 	return message_to_send
 
 # 获取所有循环状态
 def get_all_cycle():
 	message_to_send=""
-	message_to_send="\n【循环信息】"+get_earth_cycle()+get_cetus_cycle()+get_orb_cycle()
+	message_to_send="【循环信息】"+get_earth_cycle()+"\n"+get_cetus_cycle()+"\n"+get_orb_cycle()+"\n"+get_entrati_cycle()
 
 	return message_to_send
 
@@ -203,7 +207,7 @@ def get_earth_cycle():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到地球循环状态"
+		message_to_send="未获取到地球循环状态"
 	else:
 		expiry=data.get("expiry")
 		isDay=data.get("isDay")
@@ -213,7 +217,7 @@ def get_earth_cycle():
 			state="夜晚"
 		rest_time=get_rest_time(expiry)
 
-		message_to_send="\n地球："+state+"，剩余时间："+rest_time
+		message_to_send="地球："+state+"，剩余时间："+rest_time
 
 	return message_to_send
 
@@ -226,7 +230,7 @@ def get_cetus_cycle():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到夜灵平野循环状态"
+		message_to_send="未获取到夜灵平野循环状态"
 	else:
 		expiry=data.get("expiry")
 		isDay=data.get("isDay")
@@ -236,7 +240,7 @@ def get_cetus_cycle():
 			state="夜晚"
 		rest_time=get_rest_time(expiry)
 
-		message_to_send="\n夜灵平野："+state+"，剩余时间："+rest_time
+		message_to_send="夜灵平野："+state+"，剩余时间："+rest_time
 
 	return message_to_send
 
@@ -247,8 +251,9 @@ def get_orb_cycle():
 	url=warframe_worldstate_api+orb_vallis
 	data=requests.get(url,headers=headers).text
 	data=loads(data)
+
 	if data=={}:
-		message_to_send="\n未获取到福尔图娜循环状态"
+		message_to_send="未获取到福尔图娜循环状态"
 	else:
 		expiry=data.get("expiry")
 		isDay=data.get("isDay")
@@ -258,9 +263,35 @@ def get_orb_cycle():
 			state="寒冷"
 		rest_time=get_rest_time(expiry)
 
-		message_to_send="\n福尔图娜："+state+"，剩余时间："+rest_time
+		message_to_send="福尔图娜："+state+"，剩余时间："+rest_time
 
 	return message_to_send
+
+# 获取I系平原循环状态
+def get_entrati_cycle():
+	# 初始化
+	message_to_send=""
+	url=warframe_worldstate_api+cambion
+	data=requests.get(url,headers=headers).text
+	data=loads(data)
+
+	if data=={}:
+		message_to_send="未获取到英择谛循环状态"
+	else:
+		expiry=data.get("expiry")
+		active=data.get("active")
+		if active=="vome":
+			state="Vome"
+		elif active=="fass":
+			state="Fass"
+		else:
+			state="Unkown"
+		rest_time=get_rest_time(expiry)
+
+		message_to_send="英择谛："+state+"，剩余时间："+rest_time
+
+	return message_to_send
+
 
 # 获取希图斯赏金内容
 def get_cetus_mission():
@@ -272,7 +303,7 @@ def get_cetus_mission():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到任务信息"
+		message_to_send="未获取到任务信息"
 	else:
 		all_mission_length=len(data)
 		for i in range(all_mission_length):
@@ -284,7 +315,7 @@ def get_cetus_mission():
 				status=False
 
 		if status==False:
-			message_to_send="\n目前没有希图斯赏金"
+			message_to_send="目前没有希图斯赏金"
 			return message_to_send
 		
 		# 赏金列表
@@ -310,7 +341,7 @@ def get_cetus_mission():
 
 			message_to_send=message_to_send+"\n【赏金"+str(i+1)+"："+job_type+"】\n奖励："+rewards
 		
-		message_to_send="\n【希图斯赏金信息】\n赏金剩余时间："+rest_time+message_to_send
+		message_to_send="【希图斯赏金信息】\n赏金剩余时间："+rest_time+message_to_send
 
 	return message_to_send
 
@@ -321,7 +352,7 @@ def get_darvo_daily_deal():
 	data=requests.get(url,headers=headers).text
 	data=loads(data)
 	if data==[]:
-		message_to_send="\n未获取到Darvo每日特惠信息"
+		message_to_send="未获取到Darvo每日特惠信息"
 	else:
 		data=data[0]
 		item=data.get("item")
@@ -335,7 +366,7 @@ def get_darvo_daily_deal():
 		rest_time=get_rest_time(expiry)
 		discount=data.get("discount")
 
-		message_to_send="\n【Darvo的每日特惠】"+"\n物品："+item+"\n原价："+str(originalprice)+"\n售价："+str(saleprice)+"\n折扣："+str(discount)+"%"+"\n剩余量："+str(rest_number)+"\n剩余时间："+rest_time
+		message_to_send="【Darvo的每日特惠】"+"\n物品："+item+"\n原价："+str(originalprice)+"\n售价："+str(saleprice)+"\n折扣："+str(discount)+"%"+"\n剩余量："+str(rest_number)+"\n剩余时间："+rest_time
 
 	return message_to_send
 
@@ -349,7 +380,7 @@ def get_orb_mission():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到任务信息"
+		message_to_send="未获取到任务信息"
 	else:
 		all_mission_length=len(data)
 		for i in range(all_mission_length):
@@ -387,7 +418,59 @@ def get_orb_mission():
 
 			message_to_send=message_to_send+"\n【赏金"+str(i+1)+"："+job_type+"】\n奖励："+rewards
 		
-		message_to_send="\n【福尔图娜赏金信息】\n赏金剩余时间："+rest_time+message_to_send
+		message_to_send="【福尔图娜赏金信息】\n赏金剩余时间："+rest_time+message_to_send
+
+	return message_to_send
+
+# 获得I系平原赏金内容
+def get_entrati_mission():
+	# 初始化
+	message_to_send=""
+	url=warframe_worldstate_api+syndicate_mission
+	data=requests.get(url,headers=headers).text
+	data=loads(data)
+
+	if data==[]:
+		message_to_send="未获取到任务信息"
+	else:
+		all_mission_length=len(data)
+		for i in range(all_mission_length):
+			if (data[i].get("syndicate")=="EntratiSyndicate"):
+				data=data[i]
+				status=True
+				break
+			else:
+				status=False
+
+		if status==False:
+			message_to_send="\n目前没有英择谛赏金"
+			return message_to_send
+		
+		# 赏金列表
+		jobs=data.get("jobs")
+		
+		# 结束时间
+		expiry=data.get("expiry")
+		rest_time=get_rest_time(expiry)
+
+		job_number=6
+		for i in range(job_number):
+			
+			# 赏金奖励
+			job_reward=jobs[i].get("rewardPool")
+			reward_length=len(job_reward)
+			rewards=""
+			for n in range(reward_length):
+				rewards=rewards+info_trans(warframe_openplain,job_reward[n])+"；"
+			
+			# 赏金名
+			job_type=jobs[i].get("type")
+			job_type=info_trans(warframe_openplain,job_type)
+
+			message_to_send=message_to_send+"\n【赏金"+str(i+1)+"："+job_type+"】\n奖励："+rewards
+		
+		message_to_send="【英择谛赏金信息】\n赏金剩余时间："+rest_time+message_to_send
+
 
 	return message_to_send
 
@@ -401,7 +484,7 @@ def get_events():
 	data=loads(data)
 	
 	if data==[]:
-		message_to_send="\n未获取到事件活动信息"
+		message_to_send="未获取到事件活动信息"
 	else:
 		all_events_length=len(data)
 		event_message=""
@@ -447,7 +530,7 @@ def get_events():
 					rewards=rewards+"\n阶段"+str(n+1)+"："+rewards_message
 			event_message=event_message+"\n\n事件"+str(i+1)+"："+description+"\n剩余时间："+rest_time+"\n事件节点："+node+"\n奖励内容："+rewards
 
-		message_to_send="\n【事件活动】"+event_message
+		message_to_send="【事件活动】"+event_message
 
 	return message_to_send
 
@@ -460,7 +543,7 @@ def get_fissures():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到虚空裂缝任务信息"
+		message_to_send="未获取到虚空裂缝任务信息"
 	else:
 		all_fissures_length=len(data)
 		lith_message="\n\n【T1古纪裂缝】"
@@ -586,7 +669,7 @@ def get_fissures():
 
 				requiem_message=requiem_message+"\n\n节点："+node+"\n任务类型："+missiontype+"\n敌人类型："+enemy+"\n剩余时间："+rest_time
 
-		message_to_send="\n【虚空裂缝任务】"+lith_message+meso_message+neo_message+axi_message+requiem_message
+		message_to_send="【虚空裂缝任务】"+lith_message+meso_message+neo_message+axi_message+requiem_message
 
 	return message_to_send
 
@@ -604,7 +687,7 @@ def get_invasions():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到入侵任务信息"
+		message_to_send="未获取到入侵任务信息"
 	else:
 		all_mission_length=len(data)
 		mission_list=""
@@ -647,7 +730,7 @@ def get_invasions():
 
 				mission_list=mission_list+"\n【"+node+"："+desc+"】\n攻击方："+attacker+"\n奖励："+attackreward+"\n攻方进度："+str(round(process,2))+"%\n剩余攻击次数："+str(attack_rest)+"\n\n防守方："+defender+"\n奖励："+defendreward+"\n守方进度："+str(round(100-process,2))+"%\n剩余防守次数："+str(defend_rest)
 
-		message_to_send="\n【入侵任务】"+mission_list
+		message_to_send="【入侵任务】"+mission_list
 
 	return message_to_send
 
@@ -659,11 +742,11 @@ def get_construction_progress():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到巨人战舰或利刃豺狼信息"
+		message_to_send="未获取到巨人战舰或利刃豺狼信息"
 	else:
 		fomorian=data.get("fomorianProgress")
 		razorback=data.get("razorbackProgress")
-		message_to_send="\n【入侵建造情况】\n巨人战舰："+fomorian+"%\n利刃豺狼："+razorback+"%"
+		message_to_send="【入侵建造情况】\n巨人战舰："+fomorian+"%\n利刃豺狼："+razorback+"%"
 
 	return message_to_send
 
@@ -675,7 +758,7 @@ def get_kuva():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到赤毒虹吸器任务信息\n（注意：该查询模块不稳定，基本查不到内容，无解……）"
+		message_to_send="未获取到赤毒虹吸器任务信息\n（注意：该查询模块不稳定，基本查不到内容，无解……）"
 	else:
 		all_mission_length=len(data)
 		mission_list=""
@@ -695,7 +778,7 @@ def get_kuva():
 			mission_type=data[i].get("type")
 			mission_list=mission_list+"\n\n【"+node+"】\n任务类型："+mission_type+"\n敌人："+enemy+"\n剩余时间："+rest_time
 
-		message_to_send="\n【赤毒虹吸器任务】"+mission_list
+		message_to_send="【赤毒虹吸器任务】"+mission_list
 
 	return message_to_send
 
@@ -707,7 +790,7 @@ def get_news():
 	data=loads(data)
 
 	if data==[]:
-		message_to_send="\n未获取到新闻内容"
+		message_to_send="未获取到新闻内容"
 	else:
 		all_news_length=len(data)
 		news_list=""
@@ -718,7 +801,7 @@ def get_news():
 				message=data[i].get("translations").get("en")
 			news_list=news_list+"\n\n新闻"+str(i+1)+"："+message+"\n新闻链接："+link
 
-		message_to_send="\n【新闻列表】"+news_list
+		message_to_send="【新闻列表】"+news_list
 
 	return message_to_send
 
@@ -730,7 +813,7 @@ def get_nightwave():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到午夜电波信息"
+		message_to_send="未获取到午夜电波信息"
 	else:
 		data=data.get("activeChallenges")
 		all_challenges_length=len(data)
@@ -748,7 +831,7 @@ def get_nightwave():
 			else:
 				week=week+"\n任务："+title+"，要求："+desc+"，声望："+str(reputation)
 
-		message_to_send="\n【午夜电波任务】\n【每日任务】"+daily+"\n【每周任务】"+week
+		message_to_send="【午夜电波任务】\n【每日任务】"+daily+"\n【每周任务】"+week
 
 	return message_to_send
 
@@ -770,7 +853,7 @@ def get_sentient_outpost():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到S船出没信息"
+		message_to_send="未获取到S船出没信息"
 	else:
 		node=data.get("mission").get("node")
 		pick_out=re.findall(r'[(](.*?)[)]',node)
@@ -786,7 +869,7 @@ def get_sentient_outpost():
 
 		expiry=data.get("expiry")
 		rest_time=get_rest_time(expiry)
-		message_to_send="\n【S船出没信息】\n出没节点："+node+"\n剩余时间："+rest_time
+		message_to_send="【S船出没信息】\n出没节点："+node+"\n剩余时间："+rest_time
 
 	return message_to_send
 
@@ -801,7 +884,7 @@ def get_sanctuary():
 		message_to_send="\n未获取到Simaris任务信息"
 	else:
 		target=data.get("target")
-		message_to_send="\n【Simaris任务】\n任务目标："+target
+		message_to_send="【Simaris任务】\n任务目标："+target
 
 	message_to_send=""	# 该查询内容毫无意义
 
@@ -815,7 +898,7 @@ def get_sortie():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到突击任务信息"
+		message_to_send="未获取到突击任务信息"
 	else:
 		boss=data.get("boss")
 		mission_list=data.get("variants")
@@ -837,7 +920,7 @@ def get_sortie():
 				node=re.sub(pattern,pick_out,node)
 			sortie_mission=sortie_mission+"\n【突击"+str(i+1)+"："+node+"】\n任务："+mission_type+"\n状态："+modifier
 
-		message_to_send="\n【突击任务：击败"+boss+"的部队】"+sortie_mission
+		message_to_send="【突击任务：击败"+boss+"的部队】"+sortie_mission
 
 	return message_to_send
 
@@ -849,7 +932,7 @@ def get_syndicate_mission():
 	data=requests.get(url,headers=headers).text
 	data=loads(data)
 	if data==[]:
-		message_to_send="\n未获取到任务信息"
+		message_to_send="未获取到任务信息"
 	else:
 		all_mission_length=len(data)
 
@@ -981,7 +1064,7 @@ def get_syndicate_mission():
 			else:
 				new_loka="\n目前没有新世间任务"
 
-	message_to_send="\n【集团任务信息】"+steel_meridian+arbiters_of_hexis+cephalon_suda+perrin_sequence+red_veil+new_loka
+	message_to_send="【集团任务信息】"+steel_meridian+arbiters_of_hexis+cephalon_suda+perrin_sequence+red_veil+new_loka
 
 	return message_to_send
 
@@ -993,7 +1076,7 @@ def get_void_trader():
 	data=loads(data)
 
 	if data=={}:
-		message_to_send="\n未获取到虚空商人信息"
+		message_to_send="未获取到虚空商人信息"
 	else:
 		
 		location=data.get("location")
@@ -1026,7 +1109,7 @@ def get_void_trader():
 			rest_time=get_rest_time(activation)
 			trader_message="\n虚空商人还未到来！\n下次出没节点："+location+"\n到来剩余时间："+rest_time
 
-		message_to_send="\n【虚空商人】"+trader_message
+		message_to_send="【虚空商人】"+trader_message
 
 	return message_to_send
 

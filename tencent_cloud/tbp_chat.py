@@ -3,7 +3,7 @@
 # 实际使用的签名密钥通过数据库读取和存储，不于实际代码中显示以保证密钥安全性
 # 数据库字段格式：<botname>,<type>,<botid>,<secretid>,<secretkey>
 # botname为Bot名称，type为签名方法，botid为TBP的botid，secretid为签名，secretkey为签名密钥
-# TBP CDK环境: tencentcloud-sdk-python
+# TBP CDK第三方运行库: tencentcloud-sdk-python
 
 import json
 from tencentcloud.common import credential
