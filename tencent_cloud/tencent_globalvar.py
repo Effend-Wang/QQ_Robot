@@ -27,8 +27,8 @@ def var_write(file_path):
 
 	return data
 
-# 调用词典
-def get_tencent_dict(value):
+# 调用数据
+def get_tencent_list(value):
 
 	if value=="tbp_signature":
 		return tbp_signature

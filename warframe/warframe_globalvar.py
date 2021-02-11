@@ -7,7 +7,6 @@ warframe_db_path=os.getcwd()+"/data/warframe/"
 
 # 加载数据库数据
 def warframe_db_loading():
-	load_check=False
 
 	#global warframe_info_dict
 	global warframe_darvo_dict
@@ -24,19 +23,19 @@ def warframe_db_loading():
 	global warframe_translation_dict
 	global warframe_voidtrader_dict
 
-	warframe_darvo_dict=var_write(warframe_db_path+"warframe_darvo.mdb")
-	warframe_events_dict=var_write(warframe_db_path+"warframe_events.mdb")
-	warframe_invasions_dict=var_write(warframe_db_path+"warframe_invasions.mdb")
-	warframe_landscape_dict=var_write(warframe_db_path+"warframe_landscape.mdb")
-	warframe_market_dict=var_write(warframe_db_path+"warframe_market.mdb")
-	warframe_missiontype_dict=var_write(warframe_db_path+"warframe_missiontype.mdb")
-	warframe_news_dict=var_write(warframe_db_path+"warframe_news.mdb")
-	warframe_nightwave_dict=var_write(warframe_db_path+"warframe_nightwave.mdb")
-	warframe_node_dict=var_write(warframe_db_path+"warframe_node.mdb")
-	warframe_openplain_dict=var_write(warframe_db_path+"warframe_openplain.mdb")
-	warframe_sortie_dict=var_write(warframe_db_path+"warframe_sortie.mdb")
-	warframe_translation_dict=var_write(warframe_db_path+"warframe_translation.mdb")
-	warframe_voidtrader_dict=var_write(warframe_db_path+"warframe_voidtrader.mdb")
+	warframe_darvo_dict=var_write(warframe_db_path+"darvo.mdb")
+	warframe_events_dict=var_write(warframe_db_path+"events.mdb")
+	warframe_invasions_dict=var_write(warframe_db_path+"invasions.mdb")
+	warframe_landscape_dict=var_write(warframe_db_path+"landscape.mdb")
+	warframe_market_dict=var_write(warframe_db_path+"market.mdb")
+	warframe_missiontype_dict=var_write(warframe_db_path+"missiontype.mdb")
+	warframe_news_dict=var_write(warframe_db_path+"news.mdb")
+	warframe_nightwave_dict=var_write(warframe_db_path+"nightwave.mdb")
+	warframe_node_dict=var_write(warframe_db_path+"node.mdb")
+	warframe_openplain_dict=var_write(warframe_db_path+"openplain.mdb")
+	warframe_sortie_dict=var_write(warframe_db_path+"sortie.mdb")
+	warframe_translation_dict=var_write(warframe_db_path+"translation.mdb")
+	warframe_voidtrader_dict=var_write(warframe_db_path+"voidtrader.mdb")
 
 # 读取warframe数据库并处理为dict格式数据
 def var_write(file_path):

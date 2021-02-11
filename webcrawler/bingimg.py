@@ -1,3 +1,13 @@
+'''
+
+该代码用于从必应搜索主页抓取背景图片
+
+模块无需提供内容
+模块将返回从页面抓取的图片网络链接
+
+'''
+
+# 导入第三方库
 import requests
 import urllib
 from bs4 import BeautifulSoup

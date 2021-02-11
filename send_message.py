@@ -1,17 +1,29 @@
-# 该文档代码完成发送消息的操作
+'''
 
-# 发送的消息内容
-#message={
-#	"message_type":message_type,
-#	"cq_status":at_status,
-#	"cq_id":at_id,
-#	"group_id":group_id,
-#	"user_id":user_id,
-#	"nickname":nickname,
-#	"message":message,
-#	"image_url":image_url,
-#	"message_status":message_status
-#}
+该文档代码完成发送消息的操作
+
+模块需提供response.create的返回值
+模块为程序的最后一步，不返回任何值
+
+判断群聊消息或私聊消息：提取res_msg中的message_type值
+
+发送文字消息需要的参数有：
+	fromqq：发送回复的机器人qq号
+	toqq：回复对象的qq号（仅当回复私聊消息时使用）
+	togroup：回复对象的群号（仅当回复群消息时使用）
+	text：回复的文字消息内容
+
+发送图片消息需要的参数有：
+	fromqq：发送回复的机器人qq号
+	toqq：回复对象的qq号（仅当回复私聊消息时使用）
+	togroup：回复对象的群号（仅当回复群消息时使用）
+	fromtype：回复的图片类型（0、1、2）
+	pic：图片的pic信息（仅当fromtype为0时使用）
+	path：图片的本地绝对路径（仅当fromtype为1时使用）
+	url：图片的网络链接地址（仅当fromtype为2时使用）
+若fromtype为1或2时，需要先将图片上传，获取pic信息后，再次通过框架api用fromtype=0的形式发送pic信息才会将图片发送出去
+
+'''
 
 from json import loads
 import os
@@ -43,7 +55,6 @@ def send(res_msg):
 			}
 			api_url=api_ip+msg_prv_api
 		if (res_msg["have_pic"]==True):
-			path=os.getcwd()+"/testimg.jpg"
 			data={
 				"fromqq":res_msg["fromqq"],
 				"toqq":res_msg["toqq"],
@@ -77,7 +88,6 @@ def send(res_msg):
 			elif (data["fromtype"]==2):
 				data["url"]=res_msg["audio_url"]
 			api_url=api_ip+aud_prv_api
-		r=requests.post(api_url,data=data)
 
 	elif (res_msg["message_type"]=="group"):
 		if (res_msg["have_text"]==True):
@@ -120,5 +130,6 @@ def send(res_msg):
 			elif (data["fromtype"]==2):
 				data["url"]=res_msg["audio_url"]
 			api_url=api_ip+aud_gro_api
-		r=requests.post(api_url,data=data)
+			
+	r=requests.post(api_url,data=data)
 		

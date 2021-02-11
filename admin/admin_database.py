@@ -1,30 +1,47 @@
+'''
+
 # 该文档用于admin管理员对数据库的操作
 # 程序config相关数据库不可进行操作，以避免可能的程序问题
 
+'''
+
+# 导入第三方库
 import os
+
+# 导入程序模块
 from database_operate import access_operate
 
 # Warframe数据库
 db_warframe={
-	"warframe_events":"/data/warframe/warframe_events.mdb",
-	"warframe_invasions":"/data/warframe/warframe_invasions.mdb",
-	"warframe_landscape":"/data/warframe/warframe_landscape.mdb",
-	"warframe_market":"/data/warframe/warframe_market.mdb",
-	"warframe_missiontype":"/data/warframe/warframe_missiontype.mdb",
-	"warframe_news":"/data/warframe/warframe_news.mdb",
-	"warframe_nightwave":"/data/warframe/warframe_nightwave.mdb",
-	"warframe_node":"/data/warframe/warframe_node.mdb",
-	"warframe_openplain":"/data/warframe/warframe_openplain.mdb",
-	"warframe_sortie":"/data/warframe/warframe_sortie.mdb",
-	"warframe_translation":"/data/warframe/warframe_translation.mdb",
-	"warframe_voidtrader":"/data/warframe/warframe_voidtrader.mdb"
+	"warframe_events":"/data/warframe/events.mdb",
+	"warframe_invasions":"/data/warframe/invasions.mdb",
+	"warframe_landscape":"/data/warframe/landscape.mdb",
+	"warframe_market":"/data/warframe/market.mdb",
+	"warframe_missiontype":"/data/warframe/missiontype.mdb",
+	"warframe_news":"/data/warframe/news.mdb",
+	"warframe_nightwave":"/data/warframe/nightwave.mdb",
+	"warframe_node":"/data/warframe/node.mdb",
+	"warframe_openplain":"/data/warframe/openplain.mdb",
+	"warframe_sortie":"/data/warframe/sortie.mdb",
+	"warframe_translation":"/data/warframe/translation.mdb",
+	"warframe_voidtrader":"/data/warframe/voidtrader.mdb"
+}
+db_honhai3={
+	"honkai3_shenyuan":"/data/honkai3/shenyuan.mdb",
+	"honkai3_zhanchang":"/data/honkai3/zhanchang.mdb"
 }
 
+# 输出所有可操作的数据库
 def database_owned():
 	warframe_db_list="Warframe数据库："
 	for key,value in db_warframe.items():
 		warframe_db_list=warframe_db_list+"\n"+key
-	message_to_send="\n可操作数据库列表："+warframe_db_list
+	message_to_send="\n【可操作数据库列表】"+warframe_db_list
+
+	honkai3_db_list="崩坏3数据库："
+	for key,value in db_honkai3.items():
+		honkai3_db_list=honkai3_db_list+"\n"+key
+	message_to_send="\n"+honkai3_db_list
 
 	return message_to_send
 

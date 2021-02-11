@@ -1,30 +1,33 @@
-# 消息内容处理接口，分割获得的聊天数据
-# 数据分割后包括：
-#	接收消息的ID：<data: self_id> <default: "">
-# 	聊天类型（私密/群消息）：<data: message_type> <result: "private" & "group"> <default: "">
-#	聊天@情况（仅当群消息时获得）：<data: at_status> <result: True & False> <default: "False">
-#	聊天@对象（仅当at_status==True时获得）：<data: at_id> <default: []>
-#	聊天消息来源群ID（仅当群消息时获得）：<data: req_group> <default: "">
-#	聊天消息来源用户ID：<data: req_id> <default: "">
-#	聊天消息来源昵称：<data: nickname> <default: "">
-#	消息内容：<data: text> <defalut: []>
-#	消息图像hash值：<data: pic_hash> <default: []>
-#	消息图像guid值：<data: pic_guid> <default: []>
-#	语音消息数据：<data: audio> <default: "">
+'''
 
-# 私密消息数据的几种情况：
-#	1、私密消息
-#	2、私密消息+图像信息
-#	3、图像信息
+消息内容处理接口，分割获得的聊天数据
+数据分割后包括：
+	接收消息的ID：<data: self_id> <default: "">
+ 	聊天类型（私密/群消息）：<data: message_type> <result: "private" & "group"> <default: "">
+	聊天@情况（仅当群消息时获得）：<data: at_status> <result: True & False> <default: "False">
+	聊天@对象（仅当at_status==True时获得）：<data: at_id> <default: []>
+	聊天消息来源群ID（仅当群消息时获得）：<data: req_group> <default: "">
+	聊天消息来源用户ID：<data: req_id> <default: "">
+	聊天消息来源昵称：<data: nickname> <default: "">
+	消息内容：<data: text> <defalut: []>
+	消息图像hash值：<data: pic_hash> <default: []>
+	消息图像guid值：<data: pic_guid> <default: []>
+	语音消息数据：<data: audio> <default: "">
 
-# 群消息数据的几种情况：
-#	1、群消息
-#	2、图像信息
-#	3、@成员+群消息
-#	4、@成员+群消息+图像信息
-#	5、@成员+图像信息
-#	6、@成员+无任何消息
+私密消息数据的几种情况：
+	1、私密消息
+	2、私密消息+图像信息
+	3、图像信息
 
+群消息数据的几种情况：
+	1、群消息
+	2、图像信息
+	3、@成员+群消息
+	4、@成员+群消息+图像信息
+	5、@成员+图像信息
+	6、@成员+无任何消息
+
+'''
 import re
 
 # 处理消息全局接口

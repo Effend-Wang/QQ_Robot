@@ -1,5 +1,17 @@
+'''
+
+该代码用于从warframe market的api接口获取warframe物品交易信息
+
+模块需要提供的内容格式为：wm <物品>
+模块返回的内容为回复的消息<string>
+
+'''
+
+# 导入第三方库
 import requests
 from json import loads
+
+# 导入程序库
 from warframe.warframe_translation import market_trans
 
 # API链接
@@ -40,7 +52,7 @@ def get_market(message_from_user):
 
 			sell_list=""
 			for i in range(online_length):
-				if (i<5):
+				if (i<10):
 					ingame_name=online_list[i].get("user").get("ingame_name")
 					platinum=int(online_list[i].get("platinum"))
 					reputation=online_list[i].get("user").get("reputation")
@@ -63,8 +75,8 @@ def get_market(message_from_user):
 					if (data[n].get("url_name")==url_name):
 						item_name=data[n].get("en").get("item_name")
 						break
-			if i>=5:
-				i=4
+			if i>=10:
+				i=9
 
 			trade_chat="\n私聊格式：/w 买家 Hi! I want to buy: ["+item_name+"] for 价格 platinum. (warframe.market)"
 			#message_to_send="\n------WM："+message_from_user[1]+item_name+"------\n游戏在线卖家中最低价的"+str(i+1)+"位："+sell_list+"\nWM链接："+orders_web
