@@ -29,14 +29,18 @@ def honkai3_manage(message_from_user):
 	status=False
 
 	if (message_check[0]=="修改战场"):
-		status=update(message_from_user,os.getcwd()+db_honkai3.get("honkai3_zhanchang"))
+		#status=update(message_from_user,os.getcwd()+db_honkai3.get("honkai3_zhanchang"))
 		if status==False:
 			message_to_send="数据修改失败，请检查请求格式"
+		else:
+			message_to_send="数据修改成功！"
 
 	elif (message_check[0]=="新增战场"):
 		status=add(message_from_user,os.getcwd()+db_honkai3.get("honkai3_zhanchang"))
 		if status==False:
 			message_to_send="数据新增失败，请检查请求格式"
+		else:
+			message_to_send="数据新增成功！"
 
 	#elif (message_check[0]=="修改深渊"):
 		#status=update(message_from_user,os.getcwd()+db_honkai3.get("honkai3_shenyuan"))
@@ -49,7 +53,8 @@ def honkai3_manage(message_from_user):
 			#message_to_send="数据新增失败，请检查请求格式"
 
 	elif (message_check[0]=="修改当期战场"):
-		recent_change("zhanchang",message_check[1])
+		message=message_from_user.split(" ",1)
+		recent_change("zhanchang",message[1])
 		message_to_send="已修改当期战场"
 
 	#elif (message_check[0]=="修改当期深渊"):
@@ -81,10 +86,14 @@ def update(message_from_user,db_path):
 def add(message_from_user,db_path):
 	status=False
 	values=message_from_user.split()[1:]
-	for i in range(len(values)):
-		values[i]="'"+values[i]+"'"
-	value="("+",".join(values)+")"
-
+	data=["","","","","","","","","","",""]
+	if len(data)>=len(values):
+		length=len(values)
+	else:
+		length=len(data)
+	for i in range(length):
+		data[i]=values[i]
+	value="('"+"', '".join(data)+"')"
 	status=dbop.access_add(db_path,value)
 
 	return status

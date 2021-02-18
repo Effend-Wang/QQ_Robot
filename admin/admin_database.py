@@ -26,8 +26,8 @@ db_warframe={
 	"warframe_translation":"/data/warframe/translation.mdb",
 	"warframe_voidtrader":"/data/warframe/voidtrader.mdb"
 }
-db_honhai3={
-	"honkai3_shenyuan":"/data/honkai3/shenyuan.mdb",
+db_honkai3={
+	#"honkai3_shenyuan":"/data/honkai3/shenyuan.mdb",
 	"honkai3_zhanchang":"/data/honkai3/zhanchang.mdb"
 }
 
@@ -60,8 +60,14 @@ def get_path(db_name):
 	#else:
 		#return ""
 
-	db_path=os.getcwd()+db_warframe.get(db_name.lower())
+	database=db_warframe.get(db_name.lower())
+	if database==None:
+		database=db_honkai3.get(db_name.lower())
+	
+	if database==None:
+		print("FATAL ERROR: No satisfied database!")
 
+	db_path=os.getcwd()+database
 	if os.path.exists(db_path)==False:
 		print("Path False")
 		return ""

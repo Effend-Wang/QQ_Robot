@@ -1,16 +1,11 @@
 '''
 
-该文档代码用于控制聊天权限
-其中get_list()保存权限信息，包括：
-	"id":<string>群号或个人号；
-	"type":<string>号码类型（"group"群号，"private"私聊号）；
-	"admin":<bool>是否有管理员权限；
-	"warframe":<bool>是否有Warframe聊天模块权限；
-	"honkai3":<bool>是否有崩坏三聊天模块权限；
-	"tbp_chat":<bool>是否有腾讯智能对话平台TBP聊天模块权限；
-	"webcrawler":<bool>是否有爬虫程序模块权限；
-	"game":<bool>是否有游戏程序模块权限；
-	"honkai3_manage":<bool>是否有honkai3模块管理权限；
+该模块代码用于获取聊天权限
+
+模块需要输入需要提取的group_id和user_id
+其中当请求为私密信息时，group_id=""
+
+提取的数据为：id,type,admin,warframe,honkai3,nlp_chat,webscrawler,game,honkai3_manage
 
 '''
 
@@ -19,67 +14,38 @@ import os
 
 from config_globalvar import get_config_dict
 
-def get_list(group_id,user_id):
-	recent_path=os.getcwd()
-	operate="query"
-	db_path=recent_path+"/data/config/authority.mdb"
-	if group_id=="":
-		value="id='"+str(user_id)+"' and type='private'"
-	else:
-		value="id='"+str(group_id)+"' and type='group'"
-
-	result=database_operate.access_operate(operate,value,db_path)
-	#print(result)
-
-	if result==[]:
-		chat_list={}
-	else:
-		chat_list={
-			"group_id":group_id,
-			"user_id":user_id,
-			"type":result[0][1],
-			"admin":result[0][2],
-			"warframe":result[0][3],
-			"honkai3":result[0][4],
-			"nlp_chat":result[0][5],
-			"webcrawler":result[0][6],
-			"game":result[0][7],
-			"honkai3_manage":result[0][8]
-		}
-	#print(chat_list)
-
-	return chat_list
-
 def get_authority(group_id,user_id):
-
-	authority=False
-	chat_list=get_list(group_id,user_id)
-	list_length=len(chat_list)
+	authority={
+		"admin":False,
+		"warframe":False,
+		"honkai3":False,
+		"nlp_chat":False,
+		"webcrawler":False,
+		"game":False,
+		"honkai3_manage":False
+	}
+	authlist=get_config_dict("authority")
+	list_length=len(authlist)
 	group_id=str(group_id)
 	user_id=str(user_id)
-	if (group_id!="" and user_id!="" and chat_list!={}):
-		if (str(chat_list.get("group_id"))==group_id and chat_list.get("type")=="group"):
+	
+	if group_id=="":
+		req_type="private"
+		req_id=user_id
+	else:
+		req_type="group"
+		req_id=group_id
+
+	for i in range(list_length):
+		if (authlist[i][0]==req_id and authlist[i][1]==req_type):
 			authority={
-				"admin":chat_list.get("admin"),
-				"warframe":chat_list.get("warframe"),
-				"honkai3":chat_list.get("honkai3"),
-				"nlp_chat":chat_list.get("nlp_chat"),
-				"webcrawler":chat_list.get("webcrawler"),
-				"game":chat_list.get("game"),
-				"honkai3_manage":chat_list.get("honkai3_manage")
+				"admin":authlist[i][2],
+				"warframe":authlist[i][3],
+				"honkai3":authlist[i][4],
+				"nlp_chat":authlist[i][5],
+				"webcrawler":authlist[i][6],
+				"game":authlist[i][7],
+				"honkai3_manage":authlist[i][8]
 			}
-			#print(authority)
-	elif (group_id=="" and user_id!="" and chat_list!={}):
-		if (str(chat_list.get("user_id"))==user_id and chat_list.get("type")=="private"):
-			authority={
-				"admin":chat_list.get("admin"),
-				"warframe":chat_list.get("warframe"),
-				"honkai3":chat_list.get("honkai3"),
-				"nlp_chat":chat_list.get("nlp_chat"),
-				"webcrawler":chat_list.get("webcrawler"),
-				"game":chat_list.get("game"),
-				"honkai3_manage":chat_list.get("honkai3_manage")
-			}
-			#print(authority)
 
 	return authority

@@ -25,9 +25,9 @@ def get_info(message_from_user):
 
 # 查询某怪物对应阵容
 def group(monster):
-	shenyuan_list=get_honkai3_list("honkai3_shenyuan")
+	#shenyuan_list=get_honkai3_list("honkai3_shenyuan")
 	zhanchang_list=get_honkai3_list("honkai3_zhanchang")
-	sylen=len(shenyuan_list)
+	#sylen=len(shenyuan_list)
 	zclen=len(zhanchang_list)
 	mlist=[]
 	message_to_send=""
@@ -37,10 +37,10 @@ def group(monster):
 			mlist=zhanchang_list[i]
 			break
 
-	for i in range(sylen):
-		if monster==shenyuan_list[i][0]:
-			mlist=shenyuan_list[i]
-			break
+	#for i in range(sylen):
+		#if monster==shenyuan_list[i][0]:
+			#mlist=shenyuan_list[i]
+			#break
 
 	if mlist==[]:
 		message_to_send="未查到相关阵容数据！"
@@ -53,7 +53,7 @@ def group(monster):
 		if (mlist[i]==None or mlist[i]==""):
 			continue
 		else:
-			message_to_send=message_to_send+"\n阵容%s、%s" %(i+1,mlist[i])
+			message_to_send=message_to_send+"\n%s、%s" %(i+1,mlist[i])
 
 	return message_to_send
 
@@ -114,5 +114,5 @@ def zhanchang():
 				continue
 			else:
 				message_to_send=message_to_send+"\n%s、%s" %(n+1,result[m][n+1])
-
+				
 	return message_to_send

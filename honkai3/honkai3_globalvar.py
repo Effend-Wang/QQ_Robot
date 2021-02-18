@@ -52,6 +52,6 @@ def recent_change(item,value):
 	global honkai3_recent_zhanchang
 
 	#if item=="shenyuan":
-		#honkai3_recent_shenyuan=value.split("，")
+		#honkai3_recent_shenyuan=value.split()
 	if item=="zhanchang":
-		honkai3_recent_zhanchang=value.split("，")
+		honkai3_recent_zhanchang=value.split()

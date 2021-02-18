@@ -28,7 +28,7 @@
 '''
 
 # 导入程序库
-import chat_authority
+from chat_authority import get_authority
 from warframe.warframe_operate import warframe
 from admin.admin_operate import admin
 from tencent_cloud.tencent_operate import tencent
@@ -69,28 +69,21 @@ def create(message):
 	message_check=text.split()
 
 	# 获得消息鉴权
-	if (message_type=="private"):
-		authority=chat_authority.get_authority(req_group,req_id)
-		if (authority==False):
-			return res_msg
-	elif (message_type=="group"):
-		authority=chat_authority.get_authority(req_group,req_id)
-		if (authority==False):
-			return res_msg
-	else:
-		return res_msg
+	admin_authority=get_authority("",req_id)
+	authority=get_authority(req_group,req_id)
 
+	# 避免自我回复
 	if req_id==message.get("self_id"):
 		return res_msg
 
 	# 判断权限后获得回复内容
-	if (len(message_check)>1 and chat_authority.get_authority("",req_id).get("admin") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
+	if (len(message_check)>1 and admin_authority.get("admin") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
 		if (message_check[0].upper()=="ADMIN" or message_check[0]=="管理员"):
 			res_msg["text"]=admin(text)
 			if res_msg["text"]!="":
 				res_msg["have_text"]=True
 
-	if (len(message_check)>0 and chat_authority.get_authority("",req_id).get("honkai3_manage") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
+	if (len(message_check)>0 and admin_authority.get("honkai3_manage") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
 		res_msg["text"]=honkai3_manage(text)
 		if res_msg["text"]!="":
 			res_msg["have_text"]=True
@@ -106,9 +99,14 @@ def create(message):
 			res_msg["pic_type"]=1
 			
 	if (len(message_check)>0 and authority.get("honkai3") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
-		res_msg["text"]=honkai3(text)
-		if res_msg["text"]!="":
-			res_msg["have_text"]=True
+		#res_msg["text"]=honkai3(text)
+		#if res_msg["text"]!="":
+			#res_msg["have_text"]=True
+		msg_trans=honkai3(text)
+		if msg_trans!="":
+			res_msg["pic_path"]=w2p(msg_trans)
+			res_msg["have_pic"]=True
+			res_msg["pic_type"]=1
 
 	if (len(message_check)>1 and authority.get("nlp_chat") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
 		res_msg["text"]=tencent(text)
@@ -116,12 +114,17 @@ def create(message):
 			res_msg["have_text"]=True
 
 	if (len(message_check)>1 and authority.get("webcrawler") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
-		res_msg["pic_url"]=crawler(text)
-		if res_msg["pic_url"]!="":
-			res_msg["pic_type"]=2
-			res_msg["have_pic"]=True
+		(res_text,msg_type)=crawler(text)
+		if res_text!="":
+			if msg_type=="pic_url":
+				res_msg["pic_url"]=res_text
+				res_msg["have_pic"]=True
+				res_msg["pic_type"]=2
+			elif msg_type=="text":
+				res_msg["text"]=res_text
+				res_msg["have_text"]=True
 
-	if (authority.get("game") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
+	if (len(message_check)>0 and authority.get("game") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
 		res_msg["text"]=game(message)
 		if res_msg["text"]!="":
 			res_msg["have_text"]=True
