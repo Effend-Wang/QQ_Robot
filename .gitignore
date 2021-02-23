@@ -3,7 +3,7 @@
 data
 # Ignore test files
 test.py
-All\ Examples/Test\ Examples
+All\ Examples
 # Ignore python cache files
 __pycache__
 # Ignore Dependent program
