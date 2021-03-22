@@ -11,6 +11,7 @@ from warframe.warframe_globalvar import warframe_db_loading
 from tencent_cloud.tencent_globalvar import tencent_db_loading
 from honkai3.honkai3_globalvar import honkai3_db_loading
 from honkai3.honkai3_globalvar import honkai3_local_loading
+from game.pdg.pdg_globalvar import pdg_db_loading
 import response
 
 # 创建一个服务对象
@@ -22,6 +23,7 @@ warframe_db_loading()
 tencent_db_loading()
 honkai3_db_loading()
 honkai3_local_loading()
+pdg_db_loading()
 
 # 指定服务对象的API地址及通信模式
 @bot_server.route('/api/message',methods=['POST'])

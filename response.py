@@ -125,9 +125,14 @@ def create(message):
 				res_msg["have_text"]=True
 
 	if (len(message_check)>0 and authority.get("game") and res_msg["have_text"]==False and res_msg["have_pic"]==False and res_msg["have_audio"]==False):
-		res_msg["text"]=game(message)
-		if res_msg["text"]!="":
-			res_msg["have_text"]=True
+		#res_msg["text"]=game(message)
+		#if res_msg["text"]!="":
+			#res_msg["have_text"]=True
+		msg_trans=game(message)
+		if msg_trans!="":
+			res_msg["pic_path"]=w2p(msg_trans)
+			res_msg["have_pic"]=True
+			res_msg["pic_type"]=1
 
 	return res_msg
 	

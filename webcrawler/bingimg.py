@@ -29,6 +29,5 @@ def get_url(message):
 	m=soup.find("a",class_="iusc").get("m")
 	m=loads(m)
 	imgurl=m.get("murl")
-	print(imgurl)
 
 	return imgurl

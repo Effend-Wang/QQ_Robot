@@ -1,5 +1,15 @@
-# 该模块用于将文字转换为图片
+'''
 
+该模块用于将文字转换为图片
+
+模块需输入转换的文字
+模块输出转换后图片在本地的缓存路径，路径暂时一律定为/buffer/w2p.png
+
+TO DO：由于可能存在图片存储的冲突，因此需考虑使用其它命名办法存储并需对旧图片定时清理
+
+'''
+
+# 导入第三方库
 from PIL import Image,ImageFont,ImageDraw
 import os
 import textwrap
@@ -11,12 +21,18 @@ def w2p(text):
 	sptext=text.split("\n")
 	hlen=len(sptext)
 	for i in range(hlen):
-		sptext[i]="\n".join(textwrap.wrap(sptext[i],width=30))
+		sptext[i]="\n".join(textwrap.wrap(sptext[i],width=35))
 	text="\n".join(sptext)
+
+	# 获取文字列表的最大字符数量
+	max_len=0
+	for item in text.split("\n"):
+		if len(item)>max_len:
+			max_len=len(item)
 
 	# 转换文字为图片并保存为图片
 	h=26*len(text.split("\n"))+10
-	w=30*20+10
+	w=int(max_len*19.5+10)
 	im=Image.new("RGB",(w,h),(255, 255, 255))
 	dr=ImageDraw.Draw(im)
 	fpath=os.getcwd()+"/data/fonts/msyh.ttf"

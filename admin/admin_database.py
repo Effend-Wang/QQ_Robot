@@ -36,12 +36,12 @@ def database_owned():
 	warframe_db_list="Warframe数据库："
 	for key,value in db_warframe.items():
 		warframe_db_list=warframe_db_list+"\n"+key
-	message_to_send="\n【可操作数据库列表】"+warframe_db_list
 
 	honkai3_db_list="崩坏3数据库："
 	for key,value in db_honkai3.items():
 		honkai3_db_list=honkai3_db_list+"\n"+key
-	message_to_send="\n"+honkai3_db_list
+		
+	message_to_send="\n【可操作数据库列表】"+warframe_db_list+"\n"+honkai3_db_list
 
 	return message_to_send
 
